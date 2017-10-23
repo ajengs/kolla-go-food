@@ -26,6 +26,7 @@ Ruby on Rails
   $ rails s
   ```
   If you are on Ubuntu 16.04, you might need to edit file ``Gemfile``, uncomment line 20 (use ``gem therubyracer``).
+
   Rails use default port 3000, so if the server is up, access ``http://localhost:3000`` from your browser.
 
 * In rails you can run command with its shortened version, the first letter of the command ``rails s`` == ``rails server``, ``rails g`` == ``rails generate``
@@ -55,12 +56,16 @@ Ruby on Rails
 Source on REST: https://spring.io/understanding/REST
 
 * Controller in Rails
+
   To make controller, run command ``rails generate controller <ControllerName> <action_name>.`` Eg:
-    ```
-    $ rails generate controller Home hello
-    ```
+  ```
+  $ rails generate controller Home hello
+  ```
+
   This command will generate some necessary files for new ``Home`` controller, and also modify ``config/routes.rb`` file for the new controller default route.
+
   If you already got git on you machine, you can check modified and new files created with ``git status``.
+
   Access ``http://localhost:3000/home/hello`` from your browser to view newly added controller (and view). Make sure the server is still up.
 
 * Models in Rails
