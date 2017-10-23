@@ -3,7 +3,7 @@ Ruby on Rails
 
 * Ruby version : 5.1.4
 
-* Installment instructions
+* Install instructions
   * run command on terminal
   ```
   $ gem install rails
