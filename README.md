@@ -25,7 +25,10 @@ Ruby on Rails
   ```
   $ rails s
   ```
-    If you are on Ubuntu 16.04, you might need to edit file ``Gemfile``, uncomment line 20 (use gem therubyracer)
+  If you are on Ubuntu 16.04, you might need to edit file ``Gemfile``, uncomment line 20 (use ``gem therubyracer``).
+  Rails use default port 3000, so if the server is up, access ``http://localhost:3000`` from your browser.
+
+* In rails you can run command with its shortened version, the first letter of the command ``rails s`` == ``rails server``, ``rails g`` == ``rails generate``
 
 * REST (Representational State Transfer) is an architectural style for designing distributed systems. 
   Principles of REST
@@ -56,29 +59,22 @@ Source on REST: https://spring.io/understanding/REST
     ```
     $ rails generate controller Home hello
     ```
-
-* To launch server in production mode
-  ```
-  $ rails server -e production
-  ```
-  this needs some more configuration. Or you can user
-  ```
-  $ RAILS_NEW = production rails server
-  ```
-
-* In rails you can run command with its shortened version, the first letter of the command ``rails g`` == ``rails generate``
+  This command will generate some necessary files for new ``Home`` controller, and also modify ``config/routes.rb`` file for the new controller default route.
+  If you already got git on you machine, you can check modified and new files created with ``git status``.
+  Access ``http://localhost:3000/home/hello`` from your browser to view newly added controller (and view). Make sure the server is still up.
 
 * Models in Rails
   To make new model, run command ``rails g model <model_name>``
   ```
   $ rails g model user
   ```
-  
+  This command will generate some necessary files for new ``User`` model, including file migration for that model in ``db/migrate``
+
 * To make database for the first time in rails project:
   ```
   $ rails db:create
   ```
-  This will make new file ``config/database.yml`` and also new file migration for that model in ``db/migrate``
+  This will make new file ``config/database.yml``
 
 * Migration in rails
   Edit new file migration then run command ``rails db:migrate`` to run migration. Eg:
@@ -103,4 +99,13 @@ Source on REST: https://spring.io/understanding/REST
   or 
   ```
   $ rails c
+  ```
+
+* To launch server in production mode
+  ```
+  $ rails server -e production
+  ```
+  this needs some more configuration. Or you can user
+  ```
+  $ RAILS_NEW = production rails server
   ```
