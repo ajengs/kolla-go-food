@@ -120,6 +120,8 @@ Source on REST: https://spring.io/understanding/REST
   $ rails generate scaffold Food name:string description:text image_url:string price:decimal
   ```
 
+  To rollback scaffold use ``$ rails destroy scaffold <controller name>``
+
 * Use ``$ rails routes`` to show the complete generated routes
 
 * `db/seeds.rb`. This file should contain all the record creation needed to seed the database with its default values.

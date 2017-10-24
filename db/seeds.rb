@@ -36,3 +36,28 @@ Food.create!(
   image_url: "orange-juice.jpg",
   price: 95000.00
 )
+
+Buyer.delete_all
+
+Buyer.create!(
+  [
+    {
+      email: 'abc@yahoo.com',
+      name: 'Achmad Basir Charlie',
+      phone: '08756896899',
+      address: 'Jl. ini gang itu no. 70, Kotabatu'
+    },
+    {
+      email: 'def@gmail.com',
+      name: 'Dinda Evelyn Fransisca',
+      phone: '08573478386',
+      address: 'Jl. hahaha no. 88, Jakarta'
+    },
+    {
+      email: 'ghi@hotmail.com',
+      name: 'Gian Harum Indria',
+      phone: '08534532423',
+      address: 'Jl. Krakatau Gg. apa no. 7, Lalala'
+    }
+  ]
+)
