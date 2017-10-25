@@ -39,13 +39,21 @@ describe Food do
     expect(food.errors[:price]).to include("must be greater than or equal to 0.01")
   end
   
-  it "is valid with file ends with  '.gif, '.jpg', '.png'" do
-    food = build(:food, image_url: 'text.gif')
-    food2 = build(:food, image_url: 'text.jpg')
-    food3 = build(:food, image_url: 'text.png')
-    expect(food).to be_valid
-    expect(food2).to be_valid
-    expect(food3).to be_valid
+  describe 'Image file validity' do
+    it "is valid with file ends with  '.gif'" do
+      food = build(:food, image_url: 'text.gif')
+      expect(food).to be_valid
+    end
+
+    it "is valid with file ends with '.jpg'" do
+      food2 = build(:food, image_url: 'text.jpg')
+      expect(food2).to be_valid
+    end
+    
+    it "is valid with file ends with '.png'" do
+      food3 = build(:food, image_url: 'text.png')
+      expect(food3).to be_valid
+    end
   end
 
   it "is invalid with file ends with other than '.gif, '.jpg', '.png'" do

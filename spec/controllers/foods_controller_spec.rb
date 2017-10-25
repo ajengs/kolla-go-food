@@ -1,4 +1,4 @@
-require 'rails-helper'
+require 'rails_helper'
 
 describe FoodsController do
   describe 'GET #index' do
