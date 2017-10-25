@@ -1,33 +1,68 @@
 require 'rails_helper'
 
 describe Food do
-  it 'is valid with a name and description' do
-    food = Food.new(
-      name: 'Sate Ayam',
-      description: 'Sate yang dibuat dari daging ayam',
-      price: 30000.0
-    )
-    expect(food).to be_valid
-  end
+  describe 'Check field validity' do
+    before :each do
+      @food = Food.new(
+        name: 'Sate Ayam',
+        description: 'Sate yang dibuat dari daging ayam',
+        price: 30000.0
+      )
+    end
 
-  it 'is invalid without a name' do
-    food = Food.new(
-      name: nil,
-      description: 'Sate yang dibuat dari daging ayam',
-      price: 30000.0
-    )
-    food.valid?
-    expect(food.errors[:name]).to include("can't be blank")
-  end
+    context 'with valid name and description' do
+      it 'is valid with a name and description' do
+        expect(@food).to be_valid
+      end
+    end
 
-  it 'is invalid without a description' do
-    food = Food.new(
-      name: 'Sate Ayam',
-      description: nil,
-      price: 30000.0
-    )
-    food.valid?
-    expect(food.errors[:description]).to include("can't be blank")
+    context 'without valid name' do
+      it 'is invalid without a name' do
+        @food.name = nil
+        @food.valid?
+        expect(@food.errors[:name]).to include("can't be blank")
+      end
+    end
+
+    context 'without valid description' do
+      it 'is invalid without a description' do
+        @food.description = nil
+        @food.valid?
+        expect(@food.errors[:description]).to include("can't be blank")
+      end
+    end
+
+    context 'without valid price' do
+      it 'is a valid with numeric price' do
+        @food.price = '5ooo'
+        @food.valid?
+        expect(@food.errors[:price]).to include("is not a number")
+      end
+    end
+
+    context 'with price >= 0.01' do
+      it 'is valid with price >= 0.01' do
+        @food.price = 0.01
+        @food.valid?
+        expect(@food).to be_valid
+      end
+    end
+    
+    context 'with price < 0.01' do
+      it 'is invalid with a price < 0.01' do
+        @food.price = -10.0
+        @food.valid?
+        expect(@food.errors[:price]).to include("must be greater than or equal to 0.01")
+      end
+    end
+      
+    context "with image ends with something other than '.gif, '.jpg', '.png'" do
+      it "is invalid with image ends with other than '.gif, '.jpg', '.png'" do
+        @food.image_url = 'text.csv'
+        @food.valid?
+        expect(@food.errors[:image_url]).to include("must be a URL for GIF, JPG or PNG image")
+      end
+    end
   end
 
   it 'is invalid with a duplicate name' do
