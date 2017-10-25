@@ -208,3 +208,10 @@ Source on REST: https://spring.io/understanding/REST
   end
   ~
   ```
+
+* Gem Faker. Modify `Gemfile` in group test
+  ```
+  gem 'faker', git: 'https://github.com/stympy/faker.git'
+  ```
+
+  then run ``$ bundle install`` again

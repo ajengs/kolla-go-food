@@ -47,9 +47,9 @@ describe Food do
   end
 
   it 'is invalid with a duplicate name' do
-    food1 = create(:food)
+    food1 = create(:food, name:'Nasi Uduk')
 
-    food2 = build(:food)
+    food2 = build(:food, name:'Nasi Uduk')
 
     food2.valid?
     expect(food2.errors[:name]).to include("has already been taken")
@@ -57,7 +57,7 @@ describe Food do
 
   describe 'Filter name by letter' do
     before :each do
-      @food1 = create(:food)
+      @food1 = create(:food, name: 'Nasi Uduk')
 
       @food2 = create(:food,
         name: 'Kerak Telor',
