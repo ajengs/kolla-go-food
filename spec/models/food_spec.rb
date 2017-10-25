@@ -30,7 +30,6 @@ describe Food do
 
   it 'is valid with price >= 0.01' do
     food = build(:food, price: 0.01)
-    food.valid?
     expect(food).to be_valid
   end
   
@@ -39,7 +38,16 @@ describe Food do
     food.valid?
     expect(food.errors[:price]).to include("must be greater than or equal to 0.01")
   end
-    
+  
+  it "is valid with file ends with  '.gif, '.jpg', '.png'" do
+    food = build(:food, image_url: 'text.gif')
+    food2 = build(:food, image_url: 'text.jpg')
+    food3 = build(:food, image_url: 'text.png')
+    expect(food).to be_valid
+    expect(food2).to be_valid
+    expect(food3).to be_valid
+  end
+
   it "is invalid with file ends with other than '.gif, '.jpg', '.png'" do
     food = build(:food, image_url: 'text.csv')
     food.valid?
@@ -59,17 +67,9 @@ describe Food do
     before :each do
       @food1 = create(:food, name: 'Nasi Uduk')
 
-      @food2 = create(:food,
-        name: 'Kerak Telor',
-        description: 'Betawi traditional spicy omelette',
-        price: 8000.0
-      )
+      @food2 = create(:food, name: 'Kerak Telor')
 
-      @food3 = create(:food,
-        name: 'Nasi Semur',
-        description: 'Based on dongfruit',
-        price: 9000.0
-      )
+      @food3 = create(:food, name: 'Nasi Semur')
     end
 
     context 'with matching letters' do
