@@ -6,4 +6,8 @@ class Food < ApplicationRecord
     with: %r{\.(gif|jpg|png)\z}i,
     message: 'must be a URL for GIF, JPG or PNG image'
   }
+
+  def self.by_letter(letter)
+    where("name LIKE ?", "#{letter}%").order(:name)
+  end
 end
