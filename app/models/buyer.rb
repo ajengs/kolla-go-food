@@ -3,11 +3,7 @@ class Buyer < ApplicationRecord
   validates :email, :name, :phone, :address, presence: true
   validates :email, uniqueness: true, format: {
     with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
-    message: 'Email not valid'
+    message: 'format not valid'
   }
-  validates :phone, length: { is: 12 }, numericality: true
-  # format: {
-  #   with: /\A[+-]?\d+\z/,
-  #   message: 'Phone number not valid'
-  # }
+  validates :phone, length: { maximum: 12 }, numericality: true
 end
