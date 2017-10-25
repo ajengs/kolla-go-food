@@ -215,3 +215,22 @@ Source on REST: https://spring.io/understanding/REST
   ```
 
   then run ``$ bundle install`` again
+
+* Use Faker. You can assign Faker to your class attributes
+  ```
+  FactoryGirl.define do
+    factory :food do
+      name { Faker::Food.dish }
+      description 'Betawi style steamed rice cooked in coconut milk'
+      price 10000.0
+    end
+  end
+  ```
+
+* Specs for controller. At `Gemfile` add following line in group :development, :test
+  ```
+  gem 'rails-controller-testing'
+  ```
+  Don't forrget to bundle install
+
+* Make new directory and file under folder spec `spec/controllers/foods_controller_spec.rb`

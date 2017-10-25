@@ -41,6 +41,7 @@ group :development, :test do
   # gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.6'
   gem 'factory_girl_rails', '~> 4.4.1'
+  gem 'rails-controller-testing'
 end
 
 group :development do
