@@ -170,3 +170,41 @@ Source on REST: https://spring.io/understanding/REST
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
   ```
+
+* To use gem FactoryGirl, make a directory under folder spec `factories/food.rb`
+
+  Fill the file with the following lines
+  ```
+  FactoryGirl.define do
+    factory :food do
+      name 'Nasi Uduk'
+      description 'Betawi style steamed rice cooked in coconut milk'
+      price 10000.0
+    end
+  end
+  ```
+
+  You can use FactoryGirl in your spec file to build new object to test. E.g:
+  ```
+  ~
+  it 'has a valid factory' do
+    expect(FactoryGirl.build(:food)).to be_valid
+  end
+  ~
+  ```
+
+* You can also override the syntax, so you don't have to type FactoryGirl everytime you build.
+
+  In file `spec/rails_helper.rb`, add the following line
+  ```
+  config.include FactoryGirl::Syntax::Methods
+  ```
+
+  Then you can modify your spec file to 
+  ```
+  ~
+  it 'has a valid factory' do
+    expect(build(:food)).to be_valid
+  end
+  ~
+  ```
