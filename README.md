@@ -120,6 +120,8 @@ Source on REST: https://spring.io/understanding/REST
   $ rails generate scaffold Food name:string description:text image_url:string price:decimal
   ```
 
+  To rollback scaffold use ``$ rails destroy scaffold <controller name>``
+
 * Use ``$ rails routes`` to show the complete generated routes
 
 * `db/seeds.rb`. This file should contain all the record creation needed to seed the database with its default values.
@@ -134,7 +136,7 @@ Source on REST: https://spring.io/understanding/REST
 
 * Validation and unit testing
   
-  Add/ modify file `Gemfile`
+  Modify file `Gemfile`
   ```
   group :development, :test do
     # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -142,13 +144,13 @@ Source on REST: https://spring.io/understanding/REST
     # Adds support for Capybara system testing and selenium driver
     # gem 'capybara', '~> 2.13'
     # gem 'selenium-webdriver'
-    gem 'rspec-rails', '~> 3.1.0'
+    gem 'rspec-rails', '~> 3.6'
     gem 'factory_girl_rails', '~> 4.4.1'
   end
 
   group :test do
     gem 'faker', '~> 1.4.3'
-    gem 'capybara', '~> 2.4.3'
+    gem 'capybara'
     gem 'database_cleaner', '~> 1.3.0'
     gem 'launchy', '~> 2.4.2'
     gem 'selenium-webdriver', '~> 2.43.0'
@@ -168,3 +170,67 @@ Source on REST: https://spring.io/understanding/REST
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
   ```
+
+* To use gem FactoryGirl, make a directory under folder spec `factories/food.rb`
+
+  Fill the file with the following lines
+  ```
+  FactoryGirl.define do
+    factory :food do
+      name 'Nasi Uduk'
+      description 'Betawi style steamed rice cooked in coconut milk'
+      price 10000.0
+    end
+  end
+  ```
+
+  You can use FactoryGirl in your spec file to build new object to test. E.g:
+  ```
+  ~
+  it 'has a valid factory' do
+    expect(FactoryGirl.build(:food)).to be_valid
+  end
+  ~
+  ```
+
+* You can also override the syntax, so you don't have to type FactoryGirl everytime you build.
+
+  In file `spec/rails_helper.rb`, add the following line
+  ```
+  config.include FactoryGirl::Syntax::Methods
+  ```
+
+  Then you can modify your spec file to 
+  ```
+  ~
+  it 'has a valid factory' do
+    expect(build(:food)).to be_valid
+  end
+  ~
+  ```
+
+* Gem Faker. Modify `Gemfile` in group test
+  ```
+  gem 'faker', git: 'https://github.com/stympy/faker.git'
+  ```
+
+  then run ``$ bundle install`` again
+
+* Use Faker. You can assign Faker to your class attributes
+  ```
+  FactoryGirl.define do
+    factory :food do
+      name { Faker::Food.dish }
+      description 'Betawi style steamed rice cooked in coconut milk'
+      price 10000.0
+    end
+  end
+  ```
+
+* Specs for controller. At `Gemfile` add following line in group :development, :test
+  ```
+  gem 'rails-controller-testing'
+  ```
+  Don't forrget to bundle install
+
+* Make new directory and file under folder spec `spec/controllers/foods_controller_spec.rb`

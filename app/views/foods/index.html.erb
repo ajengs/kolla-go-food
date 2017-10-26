@@ -12,6 +12,7 @@
         <dl>
           <dt><%= food.name %></dt>
           <dd><%= truncate(strip_tags(food.description), length:80) %></dd>
+          <dd>Rp<%= food.price %></dd>
         </dl>
       </td>
       <td class="list_actions">
