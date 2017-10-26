@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get 'store/index'
-
+  root 'store#index', as: 'store_index'
   resources :buyers
   resources :foods
   get 'home/hello'
