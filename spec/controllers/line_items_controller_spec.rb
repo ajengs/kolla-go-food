@@ -40,6 +40,34 @@ describe LineItemsController do
       # expect(response).to redirect_to(cart_path(assigns(session[:cart_id]))) # this is also correct
       expect(response).to redirect_to(cart_path(assigns(:line_item).cart))
     end
+
+    context 'with existing food' do
+      it 'does not add a new line_item in the database' do
+        cart = create(:cart)
+        line_item = create(:line_item, cart: cart, food: @food)
+
+        expect{
+          post :create, params: { food_id: @food.id }
+        }.not_to change(LineItem, :count)
+      end
+
+      it 'increments the quantity of the line_item with the same food' do
+        cart = create(:cart)
+        line_item = create(:line_item, cart: cart, food: @food)
+        post :create, params: { food_id: @food.id }
+        line_item.reload
+        expect(line_item.quantity).to eq(2)
+      end
+    end
+
+    context 'without existing food' do
+      it 'saves the new line_item in the database' do
+        expect {
+          post :create, params: { food_id: @food.id }
+        }.to change(LineItem, :count).by(1)
+      end
+    end
+    
   end
 end
 
