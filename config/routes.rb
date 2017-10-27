@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   resources :carts
-  root 'store#index', as: 'store_index'
+  resources :line_items
   resources :buyers
   resources :foods
+  root 'store#index', as: 'store_index'
   get 'home/hello'
   get 'home/goodbye'
 
