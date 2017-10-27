@@ -137,5 +137,4 @@ RSpec.describe CartsController, type: :controller do
       expect(response).to redirect_to(carts_url)
     end
   end
-
 end

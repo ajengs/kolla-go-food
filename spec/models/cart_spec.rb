@@ -17,4 +17,21 @@ RSpec.describe Cart, type: :model do
 
     expect { cart.destroy }.to change { LineItem.count }.by(-2)
   end
+
+  it 'does not change the number of line item if the same food is added' do
+    cart = create(:cart)
+    food = create(:food)
+    line_item = create(:line_item, food: food, cart: cart)
+    
+    expect { cart.add_food(food) }.not_to change(LineItem, :count)
+  end
+
+  it 'increments the quantity of line item if the same food is added' do
+    cart = create(:cart)
+    food = create(:food)
+    line_item = create(:line_item, food: food, cart: cart)
+    
+    # expect { cart.add_food(food) }.to change { line_item.quantity }.by(1)
+    expect(cart.add_food(food).quantity).to eq(2)
+  end
 end
