@@ -8,6 +8,7 @@ class Food < ApplicationRecord
   }
   has_many :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
+  belongs_to :category, optional: true
 
   def self.by_letter(letter)
     where("name LIKE ?", "#{letter}%").order(:name)

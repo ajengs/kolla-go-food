@@ -100,4 +100,9 @@ describe Food do
     food.line_items << line_item
     expect { food.destroy }.not_to change(Food, :count)
   end
+
+  it 'saves category when category id is filled' do
+    category = create(:category)
+    expect(build(:food, category: category)).to be_valid
+  end
 end
