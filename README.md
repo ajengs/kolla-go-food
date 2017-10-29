@@ -248,3 +248,5 @@ Source on REST: https://spring.io/understanding/REST
   Run ``$ rails db:migrate``
   Run food_spec again. It should succeed.
 
+  * Add spec to category, it can't be destroyed while food is using it. Watch it fails.
+  * Add :ensure_not_referenced_by_any_food method in category model. 
