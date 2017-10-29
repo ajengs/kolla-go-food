@@ -67,6 +67,7 @@ describe LineItemsController do
     #     }.to change(LineItem, :count).by(1)
     #   end
     # end
+    
     context 'with existing line_item with the same food' do
       before :each do
         cart = create(:cart)
