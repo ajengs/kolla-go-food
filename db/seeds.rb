@@ -24,7 +24,7 @@ Food.create!(
       Sirloin steak
       </p>),
   image_url: "sirloin.jpg",
-  price: 85000.00
+  price: 80000.00
 )
 
 Food.create!(
@@ -34,7 +34,7 @@ Food.create!(
       Orang Juice juice
       </p>),
   image_url: "orange-juice.jpg",
-  price: 95000.00
+  price: 20000.00
 )
 
 Buyer.delete_all
