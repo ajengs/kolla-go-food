@@ -12,6 +12,4 @@ describe LineItem do
 
     expect(line_item.cart.add_food(food).total_price).to eq(12000)
   end
-
-
 end
