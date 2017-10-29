@@ -9,9 +9,9 @@ describe LineItem do
     food = create(:food, price: 6000)
     cart = create(:cart)
     line_item = create(:line_item, cart: cart, food: food)
-    cart.add_food(food)
-    line_item.reload
 
-    expect(line_item.total_price).to eq(12000)
+    expect(line_item.cart.add_food(food).total_price).to eq(12000)
   end
+
+
 end
