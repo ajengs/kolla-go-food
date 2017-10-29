@@ -61,3 +61,14 @@ Buyer.create!(
     }
   ]
 )
+
+Category.delete_all
+
+Category.create!(
+  [
+    { name: 'local' },
+    { name: 'spicy' },
+    { name: 'sweet' },
+    { name: 'recommended' },
+  ]
+)

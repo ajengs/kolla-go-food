@@ -23,9 +23,9 @@ describe CategoriesController do
     end
 
     it 'shows all foods in that category' do
-      category = crete(:category)
-      food1 = crete(:food, category: category)
-      food2 = crete(:food, category: category)
+      category = create(:category)
+      food1 = create(:food, category: category)
+      food2 = create(:food, category: category)
       get :show, params: { id: category }
       expect(assigns(:foods)).to match_array([food1, food2])
     end
@@ -67,25 +67,25 @@ describe CategoriesController do
     context 'with valid attributes' do
       it 'saves the new category in the database' do
         expect{
-          post :create, paramas: { category: attributes_for(:category) }
+          post :create, params: { category: attributes_for(:category) }
         }.to change(Category, :count).by(1)
       end
 
       it 'redirects to category#show' do
         post :create, params: { category: attributes_for(:category) }
-        expect(response).to render_template(category_path(assigns[:category]))
+        expect(response).to redirect_to(category_path(assigns[:category]))
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the new category in the database' do
         expect{
-          post :create, paramas: { category: attributes_for(:invalid_category) }
+          post :create, params: { category: attributes_for(:category, name: nil) }
         }.not_to change(Category, :count)
       end
 
       it 're-renders the :new template' do
-        post :create, params: { category: attributes_for(:invadlid_category) }
+        post :create, params: { category: attributes_for(:category, name: nil) }
         expect(response).to render_template(:new)
       end
     end
@@ -143,7 +143,7 @@ describe CategoriesController do
     it 'deletes the category from the database if no food is using it' do
       expect{
         delete :destroy, params: { id: @category }
-      }.to change(Category, :count).by(1)
+      }.to change(Category, :count).by(-1)
     end
 
     it 'redirects to category#index' do
