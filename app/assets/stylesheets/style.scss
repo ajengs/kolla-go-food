@@ -52,6 +52,17 @@ body, body > p, body > ol, body > ul, body > td {margin: 8px !important}
   }
 }
 
+p, div.tags_line {
+  margin-left: 100px;
+  margin-top: 0.5em;
+  margin-bottom: 0.8em;
+}
+
+.tags {
+  background-color: LightGrey;
+  font-size: 10px;
+}
+
 @media all and (max-width: 800px) {
   #columns {
     flex-direction: column-reverse;

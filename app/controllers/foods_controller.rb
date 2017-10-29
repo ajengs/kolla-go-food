@@ -15,10 +15,12 @@ class FoodsController < ApplicationController
   # GET /foods/new
   def new
     @food = Food.new
+    @categories_array = Category.all.map { |category| [category.name, category.id] }
   end
 
   # GET /foods/1/edit
   def edit
+    @categories_array = Category.all.map { |category| [category.name, category.id] }
   end
 
   # POST /foods
@@ -69,6 +71,6 @@ class FoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def food_params
-      params.require(:food).permit(:name, :description, :image_url, :price)
+      params.require(:food).permit(:name, :description, :image_url, :price, :category_id)
     end
 end

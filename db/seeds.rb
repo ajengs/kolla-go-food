@@ -34,7 +34,8 @@ Food.create!(
       Orang Juice juice
       </p>),
   image_url: "orange-juice.jpg",
-  price: 20000.00
+  price: 20000.00,
+  category_id: 3
 )
 
 Buyer.delete_all

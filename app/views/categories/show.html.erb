@@ -18,11 +18,6 @@
           <dd>Rp<%= food.price %></dd>
         </dl>
       </td>
-      <td class="list_actions">
-        <%= link_to 'Show', food %><br/>
-        <%= link_to 'Edit', edit_food_path(food) %><br/>
-        <%= link_to 'Destroy', food, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </td>
     </tr>
   <% end %>
 </table>
