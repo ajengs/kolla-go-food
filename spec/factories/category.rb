@@ -3,7 +3,7 @@ FactoryGirl.define do
     name { Faker::Dessert.variety }
   end
 
-  factory :invalid_category do
+  factory :invalid_category, parent: :category do
     name nil
   end
 end

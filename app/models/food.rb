@@ -14,6 +14,10 @@ class Food < ApplicationRecord
     where("name LIKE ?", "#{letter}%").order(:name)
   end
 
+  def self.by_category(category_id)
+    where("category_id = ?", category_id)
+  end
+
   private
     def ensure_not_referenced_by_any_line_item
       unless line_items.empty?
