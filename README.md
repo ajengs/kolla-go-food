@@ -253,3 +253,5 @@ Source on REST: https://spring.io/understanding/REST
 
   * Add spec for categories controller. Watch it fails
   * Add manually : categories controller, and necessary views.
+
+* On branch issue_9
