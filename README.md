@@ -255,3 +255,16 @@ Source on REST: https://spring.io/understanding/REST
   * Add manually : categories controller, and necessary views.
 
 * On branch issue_9
+  Drink feature
+  * Drink model spec
+  * Drinks controller spec
+  * Generate model
+  ```
+  $ rails g model drink name:string description:text image_url:string price:decimal category:references
+  $ rails db:migrate
+  ```
+  Fix error spec until succeed.
+  ```
+  $ rails g controller Drinks
+  ```
+  Change routes file

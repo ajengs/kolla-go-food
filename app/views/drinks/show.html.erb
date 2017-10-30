@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <%= image_tag(@drink.image_url, class: 'list_image') %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @drink.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= strip_tags(@drink.description) %>
+</p>
+
+
+<p>
+  <strong>Price:</strong>
+  <%= number_to_currency(@drink.price, unit: "Rp ", delimiter: ".", separator: ",") %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @drink.category.name unless @drink.category.nil? %>
+</p>
+
+<%= link_to 'Edit', edit_drink_path(@drink) %> |
+<%= link_to 'Back', drinks_path %>
