@@ -10,12 +10,16 @@ describe Category do
   end
 
   it 'is invalid without a name' do
-    expect(build(:category, name: nil)).not_to be_valid
+    category = build(:category, name: nil)
+    category.valid?
+    expect(category.errors[:name]).to include("can't be blank")
   end
   
   it 'is invalid with a duplicate name' do
     category = create(:category, name: 'dessert')
-    expect(build(:category, name: 'dessert')).not_to be_valid
+    category2 = build(:category, name: 'dessert')
+    category2.valid?
+    expect(category2.errors[:name]).to include('has already been taken')
   end
 
   it "can't be destroyed while food is using it" do
