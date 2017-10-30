@@ -14,8 +14,6 @@ class Cart < ApplicationRecord
   end
 
   def total_price
-    total_price = 0
-    line_items.map { |i| total_price += i.quantity * i.food.price }
-    total_price
+    line_items.map { |i| i.total_price }.sum
   end
 end

@@ -1,26 +1,21 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Category Name:</strong>
+<h1>
+  <strong>Category:</strong>
   <%= @category.name %>
-</p>
-
-<table>
-  <% @foods.each do |food| %>
-    <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-      <td>
-        <%= image_tag(food.image_url, class: 'list_image') %>
-      </td>
-      <td class="list_description">
-        <dl>
-          <dt><%= food.name %></dt>
-          <dd><%= truncate(strip_tags(food.description), length:80) %></dd>
-          <dd>Rp<%= food.price %></dd>
-        </dl>
-      </td>
-    </tr>
-  <% end %>
-</table>
+</h1>
+<% @foods.each do |food| %>
+  <div class='entry'>
+  <%= image_tag(food.image_url) %>
+  <h3><%= food.name %></h3>
+  <%= sanitize(food.description) %>
+  <div class='price_line'>
+    <span class="price">
+      <%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %>
+    </span>
+  </div>
+</div>
+<% end %>
 
 <%= link_to 'Edit', edit_category_path(@category) %> |
 <%= link_to 'Back', categories_path %>

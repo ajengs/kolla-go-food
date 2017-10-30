@@ -35,13 +35,13 @@ RSpec.describe Cart, type: :model do
     expect(cart.add_food(food).quantity).to eq(2)
   end
 
-  it 'returns total of subtotal price from all line items' do
+  it 'can return total of subtotal price from all line items' do
     cart = create(:cart)
     food1 = create(:food, price: 5000)
-    line_item1 = create(:line_item, food: food1, cart: cart)
+    line_item1 = create(:line_item, food: food1, cart: cart, quantity: 2)
     food2 = create(:food, price: 10000)
     line_item2 = create(:line_item, food: food2, cart: cart)
 
-    expect(cart.total_price).to eq(15000)
+    expect(cart.total_price).to eq(20000)
   end
 end
