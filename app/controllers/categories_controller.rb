@@ -11,6 +11,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1.json
   def show
     @foods = Food.by_category(@category.id)
+    # @drinks = Drink.by_category(@category.id)
   end
   
   # GET /foods/new
