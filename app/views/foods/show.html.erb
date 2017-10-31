@@ -22,7 +22,7 @@
 
 <p>
   <strong>Category:</strong>
-  <%= @food.category.name unless @food.category.nil? %>
+  <%= @food.category.try(:name) %>
 </p>
 
 <%= link_to 'Edit', edit_food_path(@food) %> |

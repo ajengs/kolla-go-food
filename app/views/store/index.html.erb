@@ -13,7 +13,7 @@
       </span>
     </div>
     <div class="tags_line">
-      <span class="tags"><%= food.category.name unless food.category.nil? %></span>
+      <span class="tags"><%= food.category.try(:name) %></span>
     </div>
   </div>
 <% end %>
