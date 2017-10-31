@@ -35,7 +35,7 @@ describe DrinksController do
   describe 'GET #show' do
     it 'assigns the requested drink to @drink' do
       drink = create(:drink)
-      get :show
+      get :show, params: { id: drink }
       expect(assigns(:drink)).to eq(drink)
     end
 
@@ -61,13 +61,13 @@ describe DrinksController do
   describe 'GET #edit' do
     it 'assigns the requested drink to @drink' do
       drink = create(:drink)
-      get :edit
+      get :edit, params: { id: drink }
       expect(assigns(:drink)).to eq(drink)
     end
 
     it 'renders the :edit template' do
       drink = create(:drink)
-      get :edit
+      get :edit, params: { id: drink }
       expect(response).to render_template :edit
     end
   end
@@ -82,6 +82,7 @@ describe DrinksController do
 
       it 'redirects to drink#show' do
         post :create, params: { drink: attributes_for(:drink) }
+        expect(response).to redirect_to(drink_path(assigns[:drink]))
       end
     end
 
@@ -117,10 +118,8 @@ describe DrinksController do
       end
 
       it "changes @drink's category" do
-        category1 = create(:category)
         category2 = create(:category)
-        food = create(:food, category_id: category1)
-        patch :update, params: { id: @drink, drink: attributes_for(:drink, category: category2) }
+        patch :update, params: { id: @drink, drink: attributes_for(:drink, category_id: category2.id) }
         @drink.reload
         expect(@drink.category_id).to eq(category2.id)
       end

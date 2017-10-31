@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Drink do
-  it 'has a valid factory' do
-    expect(build(:drink)).to be_valid
-  end
+  # it 'has a valid factory' do
+  #   expect(build(:drink)).to be_valid
+  # end
 
   it 'is valid with a name and description' do
     expect(build(:drink)).to be_valid

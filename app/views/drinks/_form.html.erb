@@ -33,7 +33,7 @@
 
   <div class="field">
     <%= form.label :category_id %>
-    <%= form.select :category_id, options_for_select(@categories_array, drink.category_id), include_blank: true %>
+    <%= form.collection_select :category_id, Category.order(:name), :id, include_blank: true %>
   </div>
 
   <div class="actions">

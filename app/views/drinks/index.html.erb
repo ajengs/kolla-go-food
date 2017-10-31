@@ -13,7 +13,7 @@
           <dt><%= drink.name %></dt>
           <dd><%= truncate(strip_tags(drink.description), length:80) %></dd>
           <dd><%= number_to_currency(drink.price, unit: "Rp ", delimiter: ".", separator: ",") %></dd>
-          <dd><span class="tags"><%= drink.category.name unless drink.category.nil? %></span></dd>
+          <dd><span class="tags"><%= drink.category.try(:name) %></span></dd>
         </dl>
       </td>
       <td class="list_actions">
