@@ -4,7 +4,10 @@
   <strong>Category:</strong>
   <%= @category.name %>
 </h1>
-<% @foods.each do |food| %>
+<h2>
+  <strong>Foods:</strong>
+</h2>
+<% @category.foods.each do |food| %>
   <div class='entry'>
   <%= image_tag(food.image_url) %>
   <h3><%= food.name %></h3>
@@ -12,6 +15,22 @@
   <div class='price_line'>
     <span class="price">
       <%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %>
+    </span>
+  </div>
+</div>
+<% end %>
+
+<h2>
+  <strong>Drinks:</strong>
+</h2>
+<% @category.drinks.each do |drink| %>
+  <div class='entry'>
+  <%= image_tag(drink.image_url) %>
+  <h3><%= drink.name %></h3>
+  <%= sanitize(drink.description) %>
+  <div class='price_line'>
+    <span class="price">
+      <%= number_to_currency(drink.price, unit: "Rp ", delimiter: ".", separator: ",") %>
     </span>
   </div>
 </div>

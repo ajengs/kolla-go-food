@@ -15,12 +15,10 @@ class DrinksController < ApplicationController
   # GET /drinks/new
   def new
     @drink = Drink.new
-    @categories_array = Category.all.map { |category| [category.name, category.id] }
   end
 
   # GET /drinks/1/edit
   def edit
-    @categories_array = Category.all.map { |category| [category.name, category.id] }
   end
 
   # POST /drinks
