@@ -4,7 +4,7 @@
   <strong>Category:</strong>
   <%= @category.name %>
 </h1>
-<% @foods.each do |food| %>
+<% @category.foods.each do |food| %>
   <div class='entry'>
   <%= image_tag(food.image_url) %>
   <h3><%= food.name %></h3>
