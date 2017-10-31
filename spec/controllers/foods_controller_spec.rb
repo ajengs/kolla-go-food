@@ -117,6 +117,14 @@ describe FoodsController do
       end
 
       # it 'saves the updated @food in the database' ???
+      it "changes @food's category" do
+        category1 = create(:category)
+        category2 = create(:category)
+        food = create(:food, category_id: category1.id)
+        patch :update, params: { id: food, food: attributes_for(:food, category_id: category2.id) }
+        food.reload
+        expect(food.category.id).to eq(category2.id)
+      end
 
       it 'redirects to food#show' do
         patch :update, params: { id: @food, food:attributes_for(:food) }

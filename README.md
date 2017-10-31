@@ -234,3 +234,22 @@ Source on REST: https://spring.io/understanding/REST
   Don't forrget to bundle install
 
 * Make new directory and file under folder spec `spec/controllers/foods_controller_spec.rb`
+
+* Category feature
+  * Make new spec for category model manually. Watch it fails.
+  * Make new model for category manually. Add factory.
+  ``$ rails g migration CreateCategory name:string``
+  * Run ``$ rails db:migrate``
+  * Add spec for category in food_spec.rb. Expect it to be valid when food has category. Watch it fails.
+  * Add `belongs_to :category, optional: true` in food.rb. Run in command
+  ```
+  $ rails g migration add_category_to_foods category:belongs_to
+  ```
+  Run ``$ rails db:migrate``
+  Run food_spec again. It should succeed.
+
+  * Add spec to category, it can't be destroyed while food is using it. Watch it fails.
+  * Add :ensure_not_referenced_by_any_food method in category model. Spec should succeed.
+
+  * Add spec for categories controller. Watch it fails
+  * Add manually : categories controller, and necessary views.

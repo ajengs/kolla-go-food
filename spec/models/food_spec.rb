@@ -100,4 +100,27 @@ describe Food do
     food.line_items << line_item
     expect { food.destroy }.not_to change(Food, :count)
   end
+
+  it 'saves category when category id is filled' do
+    category = create(:category)
+    expect(build(:food, category: category)).to be_valid
+  end
+
+  describe 'Filter by category' do
+    before :each do
+      @category = create(:category)
+
+      @food1 = create(:food, name: 'Steak Tenderloin', category: @category)
+
+      @food2 = create(:food, name: 'Steak Sirloin', category: @category)
+
+      @food3 = create(:food, name: 'Orange Juice')
+    end
+
+    context 'with a category' do
+      it 'returns an array of results in a category' do
+        expect(Food.by_category(@category.id)).to eq([@food1, @food2])
+      end
+    end
+  end
 end

@@ -16,9 +16,9 @@
     <div id="columns">
       <div id="side">
         <ul>
-          <li><a href="#">Home</a></li>
+          <li><%= link_to 'Home', store_index_path %></li>
           <li><a href="#">My Account</a></li>
-          <li><a href="#">My Orders</a></li>
+          <li><%= link_to 'My Orders', session[:cart_id] ? cart_path(session[:cart_id]) : store_index_path %></li>
         </ul>
       </div>
       <div id="main">

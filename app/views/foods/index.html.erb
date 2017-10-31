@@ -12,7 +12,8 @@
         <dl>
           <dt><%= food.name %></dt>
           <dd><%= truncate(strip_tags(food.description), length:80) %></dd>
-          <dd>Rp<%= food.price %></dd>
+          <dd><%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %></dd>
+          <dd><span class="tags"><%= food.category.name unless food.category.nil? %></span></dd>
         </dl>
       </td>
       <td class="list_actions">
