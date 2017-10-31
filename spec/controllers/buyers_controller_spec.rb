@@ -100,8 +100,6 @@ describe BuyersController do
         expect(@buyer.name).to eq('Hermione G')
       end
 
-      # it 'saves the updated @buyer in the database' ???
-
       it 'redirects to buyer#show' do
         patch :update, params: { id: @buyer, buyer:attributes_for(:buyer) }
         expect(response).to redirect_to(@buyer)
@@ -127,7 +125,6 @@ describe BuyersController do
       @buyer = create(:buyer)
     end
 
-    # it 'locates the requested @buyer' ????
     it 'deletes the buyer from the database' do
       expect{
           delete :destroy, params: { id: @buyer }

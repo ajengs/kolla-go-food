@@ -116,7 +116,6 @@ describe FoodsController do
         expect(@food.name).to eq('Nasi Uduk')
       end
 
-      # it 'saves the updated @food in the database' ???
       it "changes @food's category" do
         category2 = create(:category)
         patch :update, params: { id: @food, food: attributes_for(:food, category_id: category2.id) }
@@ -149,7 +148,6 @@ describe FoodsController do
       @food = create(:food)
     end
 
-    # it 'locates the requested @food' ????
     it 'deletes the food from the database' do
       expect{
           delete :destroy, params: { id: @food }
