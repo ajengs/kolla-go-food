@@ -267,7 +267,7 @@ Source on REST: https://spring.io/understanding/REST
     //= require jquery-ui/effects/effect-blind
     //= require jquery_ujs
   ```
-  * Add attribute ``remote: true`` at button `Add to Cart` 
+  * Add parameter ``remote: true`` at button `Add to Cart` 
   * At line item controller that handles the request, add line ``format.js``
   * Create new file `app/views/line_items/create.js.erb`
   ```
