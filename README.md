@@ -255,9 +255,21 @@ Source on REST: https://spring.io/understanding/REST
   * Add manually : categories controller, and necessary views.
 
 * AJAX on Rails
+  * In `GEMFILE`, add the following lines 
+  ```
+    gem 'jquery-rails'
+    gem 'jquery-ui-rails'
+  ```
+    Bundle install
+  * In `app/assets/javascripts/application.js`, add the following lines
+  ```
+    //= require jquery
+    //= require jquery-ui/effects/effect-blind
+    //= require jquery_ujs
+  ```
   * Add attribute ``remote: true`` at button `Add to Cart` 
   * At line item controller that handles the request, add line ``format.js``
   * Create new file `app/views/line_items/create.js.erb`
   ```
-  $('#cart').html("<%=j render(@cart) %>");
+    $('#cart').html("<%=j render(@cart) %>");
   ```
