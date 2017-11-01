@@ -273,3 +273,8 @@ Source on REST: https://spring.io/understanding/REST
   ```
     $('#cart').html("<%=j render(@cart) %>");
   ```
+
+* Channels
+  ```
+  $ rails generate channel foods
+  ```
