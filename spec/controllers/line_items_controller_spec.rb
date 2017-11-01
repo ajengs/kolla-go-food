@@ -35,10 +35,9 @@ describe LineItemsController do
       }.to change(LineItem, :count).by(1)
     end
 
-    it 'redirects to cart#show' do
+    it 'redirects to store index' do
       post :create, params: { food_id: @food.id }
-      # expect(response).to redirect_to(cart_path(assigns(session[:cart_id]))) # this is also correct
-      expect(response).to redirect_to(cart_path(assigns(:line_item).cart))
+      expect(response).to redirect_to(store_index_path)
     end
 
     # context 'with existing food' do
