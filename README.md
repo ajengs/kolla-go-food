@@ -253,3 +253,11 @@ Source on REST: https://spring.io/understanding/REST
 
   * Add spec for categories controller. Watch it fails
   * Add manually : categories controller, and necessary views.
+
+* AJAX on Rails
+  * Add attribute ``remote: true`` at button `Add to Cart` 
+  * At line item controller that handles the request, add line ``format.js``
+  * Create new file `app/views/line_items/create.js.erb`
+  ```
+  $('#cart').html("<%=j render(@cart) %>");
+  ```
