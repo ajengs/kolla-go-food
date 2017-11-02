@@ -50,7 +50,7 @@ describe Order do
       @order = build(:order)
     end
 
-    it 'add line_items to order' do    
+    it 'adds line_items to order' do    
       expect{
         @order.add_line_items(@cart)
         @order.save

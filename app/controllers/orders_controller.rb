@@ -24,11 +24,11 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        # Cart.destroy(session[:cart_id])
-        @cart.destroy
+        Cart.destroy(session[:cart_id])
+        # @cart.destroy
         session[:cart_id] = nil
 
-        format.html { redirect_to store_index_path, notice: 'Order was successfully saved' }
+        format.html { redirect_to store_index_path, notice: 'Thank you for your order' }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -60,10 +60,7 @@ class OrdersController < ApplicationController
   private
     def ensure_cart_isnt_empty
       if @cart.line_items.empty?
-        respond_to do |format|
-          format.html { redirect_to store_index_path, notice: 'Cart is empty.' }
-          format.json { head :no_content }
-        end
+        redirect_to store_index_path, notice: 'Your cart is empty.'
       end
     end
 

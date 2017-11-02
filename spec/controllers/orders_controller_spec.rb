@@ -83,6 +83,7 @@ describe OrdersController do
     before :each do
       @cart = create(:cart)
       session[:cart_id] = @cart.id
+      @line_item = create(:line_item, cart: @cart)
     end
     
     context 'with valid attributes' do
@@ -90,6 +91,11 @@ describe OrdersController do
         expect {
           post :create, params: { order: attributes_for(:order) }
         }.to change(Order, :count).by(1)
+      end
+
+      it 'adds line_items to order' do
+        post :create, params: { order: attributes_for(:order) }
+        expect(assigns(:order).line_items.count).to be(1)
       end
 
       it "destroys session's cart" do
