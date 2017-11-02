@@ -17,6 +17,5 @@ class Order < ApplicationRecord
       item.cart_id = nil
       line_items << item
     end
-    cart.destroy
   end
 end
