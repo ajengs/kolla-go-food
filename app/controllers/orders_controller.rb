@@ -24,7 +24,8 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        Cart.destroy(session[:cart_id])
+        # Cart.destroy(session[:cart_id])
+        @cart.destroy
         session[:cart_id] = nil
 
         format.html { redirect_to store_index_path, notice: 'Order was successfully saved' }

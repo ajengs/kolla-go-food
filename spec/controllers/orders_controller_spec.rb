@@ -83,30 +83,28 @@ describe OrdersController do
     before :each do
       @cart = create(:cart)
       session[:cart_id] = @cart.id
-      @line_item = create(:line_item, cart: @cart)
-      @order = attributes_for(:order)
     end
     
     context 'with valid attributes' do
       it 'saves the new order in the database' do
         expect {
-          post :create, params: { order: @order, cart: @cart }
+          post :create, params: { order: attributes_for(:order) }
         }.to change(Order, :count).by(1)
       end
 
       it "destroys session's cart" do
         expect {
-          post :create, params: { order: @order }
+          post :create, params: { order: attributes_for(:order)}
         }.to change(Cart, :count).by(-1)
       end
 
       it "removes the cart from session's params" do
-        post :create, params: { order: @order }
+        post :create, params: { order: attributes_for(:order) }
         expect(session[:cart_id]).to be(nil)
       end
 
       it 'redirects to store index page' do
-        post :create, params: { order: @order }
+        post :create, params: { order: attributes_for(:order) }
         expect(response).to redirect_to(store_index_path)
       end
     end
