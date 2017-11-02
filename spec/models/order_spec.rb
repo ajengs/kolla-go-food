@@ -64,4 +64,14 @@ describe Order do
       }.to change(@cart.line_items, :count).by(-1)
     end
   end
+
+    it 'can return total of subtotal price from all line items' do
+    order = create(:order)
+    food1 = create(:food, price: 5000)
+    line_item1 = create(:line_item, food: food1, order: order, quantity: 2)
+    food2 = create(:food, price: 10000)
+    line_item2 = create(:line_item, food: food2, order: order)
+
+    expect(order.total_price).to eq(20000)
+  end
 end
