@@ -2,6 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "store.scss";
+@import "style.scss";
+
+.orders {
+  @extend .store;
+  @extend .style;
+}
+
+.order {
+  @extend .go_food_form;
+}
+
 table tr th {
   text-align: right;
   vertical-align: bottom;
