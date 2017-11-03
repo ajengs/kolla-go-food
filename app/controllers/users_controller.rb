@@ -35,7 +35,7 @@ class UsersController < ApplicationController
         format.html { redirect_to users_url, notice: 'User was successfully updated.'}
         format.json { render :show, status: :ok, location: @user }
 
-        # @user = User.all
+        @users = User.all
         # ActionCable.server.broadcast 'users', html: render_to_string('store/index', layout: false)
       else
         format.html { render :edit }
