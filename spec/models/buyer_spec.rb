@@ -39,7 +39,7 @@ describe Buyer do
   it 'is invalid with an email other than given format' do
     buyer = build(:buyer, email: 'harry@gryffindorcom')
     buyer.valid?
-    expect(buyer.errors[:email]).to include('format not valid')
+    expect(buyer.errors[:email]).to include('format is invalid')
   end
 
   it 'is invalid with phone number not numeric' do

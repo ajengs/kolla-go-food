@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Order History</h1>
+
+<table>
+  <% @orders.each do |order| %>
+    <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+      <td><%= link_to "##{order.id}", order %></td>
+      <td class="list_description">
+        <dl>
+          <dt><%= order.name %></dt>
+          <dd><%= order.email %></dd>
+          <dd><%= order.address %></dd>
+        </dl>
+      </td>
+      <td>
+        <dl>
+          <dt><%= number_to_currency(order.total_price, unit: "Rp ", delimiter: ".", separator: ",") %></dt>
+          <dt>By <%= order.payment_type %></dt>
+        </dl>
+      </td>
+    </tr>
+  <% end %>
+</table>

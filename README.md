@@ -273,3 +273,13 @@ Source on REST: https://spring.io/understanding/REST
   ```
     $('#cart').html("<%=j render(@cart) %>");
   ```
+
+* Channels
+  ```
+  $ rails generate channel foods
+  ```
+
+* Migration alter
+  ```
+  $ rails g migration AddOrderIdToLineItem order:references
+  ```

@@ -16,16 +16,35 @@
     <div id="columns">
       <div id="side">
         <div id="cart">
-          <%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
-            <%= render @cart %>
+          <% if @cart %>
+            <%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
+              <%= render @cart %>
+            <% end %>
           <% end %>
         </div>
 
         <ul>
           <li><%= link_to 'Home', store_index_path %></li>
           <li><a href="#">My Account</a></li>
-          <li><%= link_to 'My Orders', session[:cart_id] ? cart_path(session[:cart_id]) : store_index_path %></li>
+          <li><%= link_to 'My Orders', orders_path %></li>
         </ul>
+
+        <% if session[:user_id] %>
+          <ul>
+            <li><%= link_to 'Orders', orders_path %></li>
+            <li><%= link_to 'Categories', categories_path %></li>
+            <li><%= link_to 'Foods', foods_path %></li>
+            <li><%= link_to 'Users', users_path %></li>
+            <li> </li>
+            <li><%= link_to 'Logout', logout_path, method: :delete %></li>
+          </ul>
+          
+        <% else %>
+          <ul>
+            <li><%= link_to 'Login', login_path %></li>
+          </ul>
+        <% end %>
+
       </div>
       <div id="main">
         <%= yield %>
