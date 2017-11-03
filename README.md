@@ -283,3 +283,10 @@ Source on REST: https://spring.io/understanding/REST
   ```
   $ rails g migration AddOrderIdToLineItem order:references
   ```
+
+* ENV is a hash that store keys and values about environment we're using
+  ```
+  $ echo $PORT
+  $ env
+  $ export RAILS_ENV=production
+  ```

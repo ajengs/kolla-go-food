@@ -38,6 +38,17 @@ Food.create!(
   category_id: 3
 )
 
+Food.create!(
+  name: "Mango Juice",
+  description:
+    %(<p><em>Mangoooooooooooo</em>
+      Juice
+      </p>),
+  image_url: "mango-juice.jpg",
+  price: 21000.00,
+  category_id: 4
+)
+
 Buyer.delete_all
 
 Buyer.create!(
@@ -71,5 +82,17 @@ Category.create!(
     { name: 'spicy' },
     { name: 'sweet' },
     { name: 'recommended' },
+  ]
+)
+
+User.delete_all
+
+User.create!(
+  [
+    {
+      username: 'ajeng',
+      password: '12345678',
+      password_confirmation: '12345678'
+    }
   ]
 )
