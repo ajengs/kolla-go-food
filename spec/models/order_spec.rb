@@ -97,7 +97,14 @@ describe Order do
     end
 
     it 'does not save order if voucher is not found' do
-      expect{ create(:order, voucher_id: 1000) }.not_to change(Order, :count)
+      expect{ create(:order, voucher_code: 'nodisc') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'does not save order if voucher is no longer valid' do
+      voucher = create(:voucher, valid_from: "2017-12-01")
+      expect{
+        create(:order, voucher: voucher) 
+      }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 end

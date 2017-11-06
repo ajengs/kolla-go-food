@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :voucher do
-    code "GOWEEKND"
+    code { Faker::Name.name }
     amount 10.0
     unit "percent"
     valid_from "2017-11-01"
