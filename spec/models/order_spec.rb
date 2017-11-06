@@ -65,7 +65,7 @@ describe Order do
     end
   end
 
-    it 'can return total of subtotal price from all line items' do
+  it 'can return total of subtotal price from all line items' do
     order = create(:order)
     food1 = create(:food, price: 5000)
     line_item1 = create(:line_item, food: food1, order: order, quantity: 2)
@@ -73,5 +73,31 @@ describe Order do
     line_item2 = create(:line_item, food: food2, order: order)
 
     expect(order.total_price).to eq(20000)
+  end
+
+  describe 'calculating discount voucher' do
+    before :each do
+      @voucher = create(:voucher, amount: 20000, unit: 'rupiah', max_amount: 120000)
+      @order = create(:order, voucher: @voucher)
+      @food1 = create(:food, price: 50000)
+      @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+    end    
+
+    it 'returns the amount of discount' do
+      expect(@voucher.discount(@order.total_price)).to eq(20000)
+    end
+
+    it 'returns total price after discount' do
+      expect(@order.total_after_discount).to eq(80000)
+    end
+
+    it 'returns zero if total_price < discount' do
+      @voucher.amount = 120000
+      expect(@order.total_after_discount).to eq(0)
+    end
+
+    it 'does not save order if voucher is not found' do
+      expect{ create(:order, voucher_id: 1000) }.not_to change(Order, :count)
+    end
   end
 end

@@ -99,4 +99,21 @@ describe Voucher do
   #   voucher.valid?
   #   expect(voucher.errors[:valid_through]).to include("can't be less than valid from")
   # end
+
+  it 'returns discount amount in rupiah' do
+    voucher = create(:voucher, amount: 15, unit: 'percent', max_amount: 10000)
+    expect(voucher.discount(20000)).to eq(3000)
+  end
+
+  describe 'calculates discount' do
+    it 'returns the amount of discount' do
+      voucher = create(:voucher, amount: 20000, unit: 'rupiah', max_amount: 30000)
+      expect(voucher.discount(100000)).to eq(20000)
+    end
+
+    it 'returns max amount of discount if discount > max_amount' do
+      voucher = create(:voucher, amount: 50, unit: 'percent', max_amount: 30000)
+      expect(voucher.discount(100000)).to eq(30000)
+    end
+  end
 end

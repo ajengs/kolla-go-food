@@ -23,17 +23,17 @@
 
   <div class="field">
     <%= form.label :unit %>
-    <%= form.text_field :unit, id: :voucher_unit %>
+    <%= form.select :unit, Voucher.units.keys, prompt: 'Select discount unit' %>
   </div>
 
   <div class="field">
     <%= form.label :valid_from %>
-    <%= form.text_field :valid_from, id: :voucher_valid_from %>
+    <%= form.date_field :valid_from, id: :voucher_valid_from %>
   </div>
 
   <div class="field">
     <%= form.label :valid_through %>
-    <%= form.text_field :valid_through, id: :voucher_valid_through %>
+    <%= form.date_field :valid_through, id: :voucher_valid_through %>
   </div>
 
   <div class="field">
