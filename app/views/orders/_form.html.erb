@@ -32,8 +32,9 @@
   </div>
 
   <div class="field">
-    <%= f.label :voucher_id %>
-    <%= f.collection_select :voucher_id, Voucher.order(:code), :id, :code, include_blank: true %>
+    <%= f.label :voucher_code %>
+    <% # f.collection_select :voucher_id, Voucher.order(:code), :id, :code, include_blank: true %>
+    <%= f.text_field :voucher_code, size: 20 %>
   </div>
 
   <div class="actions">

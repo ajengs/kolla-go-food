@@ -22,6 +22,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_items(@cart)
+    @order.voucher = Voucher.find_by(code: order_params[:voucher_code].upcase)
 
     respond_to do |format|
       if @order.save
@@ -71,6 +72,6 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:name, :email, :address, :payment_type, :voucher_id)
+      params.require(:order).permit(:name, :email, :address, :payment_type, :voucher_id, :voucher_code)
     end
 end
