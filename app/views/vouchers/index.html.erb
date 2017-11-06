@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Vouchers</h1>
+
+<table>
+  <% @vouchers.each do |voucher| %>
+    <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+      <td class="list_description">
+        <dl>
+          <dt><%= voucher.code %></dt>
+          <dd><%= voucher.amount %></dd>
+          <dd><%= voucher.unit %></dd>
+          <dd><%= voucher.valid_from %></dd>
+          <dd><%= voucher.valid_through %></dd>
+          <dd><%= voucher.max_amount %></dd>
+        </dl>
+      </td>
+      <td class="list_actions">
+        <%= link_to 'Show', voucher %><br/>
+        <%= link_to 'Edit', edit_voucher_path(voucher) %><br/>
+        <%= link_to 'Destroy', voucher, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<br>
+
+<%= link_to 'New Voucher', new_voucher_path %>
