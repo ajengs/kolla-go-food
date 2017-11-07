@@ -4,9 +4,9 @@ FactoryGirl.define do
   factory :voucher do
     code { Faker::Name.name }
     amount 10.0
-    unit "percent"
-    valid_from "2017-11-01"
-    valid_through "2017-11-10"
+    unit "Percent"
+    valid_from Date.today
+    valid_through 5.days.from_now
     max_amount 10000
   end
 

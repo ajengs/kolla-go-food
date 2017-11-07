@@ -75,36 +75,55 @@ describe Order do
     expect(order.total_price).to eq(20000)
   end
 
-  describe 'calculating discount voucher' do
-    before :each do
-      @voucher = create(:voucher, amount: 20000, unit: 'rupiah', max_amount: 120000)
-      @order = create(:order, voucher: @voucher)
-      @food1 = create(:food, price: 50000)
-      @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
-    end    
+  describe 'adding discount voucher' do
+    context 'with valid voucher' do
+      before :each do
+        @voucher = create(:voucher, amount: 20000, unit: 'rupiah', max_amount: 120000)
+        @order = create(:order, voucher: @voucher)
+        @food1 = create(:food, price: 50000)
+        @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+      end    
 
-    it 'returns the amount of discount' do
-      expect(@voucher.discount(@order.total_price)).to eq(20000)
+      it 'returns the amount of discount' do
+        expect(@order.discount).to eq(20000)
+      end
+
+      it 'returns total price after discount' do
+        expect(@order.total_after_discount).to eq(80000)
+      end
+
+      it 'returns zero if total_price < discount' do
+        @voucher.amount = 120000
+        expect(@order.total_after_discount).to eq(0)
+      end
     end
+  
 
-    it 'returns total price after discount' do
-      expect(@order.total_after_discount).to eq(80000)
-    end
+    context 'with invalid voucher' do
+      it 'is not saved if voucher is not found' do
+        # expect{ create(:order, voucher_code: 'nodisc') }.to raise_error(ActiveRecord::RecordInvalid)
+        
+        order = build(:order, voucher_code: 'nodisc')
+        order.valid?
+        expect(order.errors[:voucher_id]).to include("not found")
+      end
 
-    it 'returns zero if total_price < discount' do
-      @voucher.amount = 120000
-      expect(@order.total_after_discount).to eq(0)
-    end
+      it 'is not saved if voucher is no valid yet' do
+        voucher = create(:voucher, valid_from: 2.days.from_now)
+        # expect{
+        #   create(:order, voucher: voucher) 
+        # }.to raise_error(ActiveRecord::RecordInvalid)
+        order = build(:order, voucher: voucher)
+        order.valid?
+        expect(order.errors[:voucher_id]).to include("no longer valid")
+      end
 
-    it 'does not save order if voucher is not found' do
-      expect{ create(:order, voucher_code: 'nodisc') }.to raise_error(ActiveRecord::RecordInvalid)
-    end
-
-    it 'does not save order if voucher is no longer valid' do
-      voucher = create(:voucher, valid_from: "2017-12-01")
-      expect{
-        create(:order, voucher: voucher) 
-      }.to raise_error(ActiveRecord::RecordInvalid)
+      it 'is not saved if voucher is no longer valid' do
+        voucher = create(:voucher, valid_from: 3.days.ago, valid_through: 2.days.ago)
+        expect{
+          create(:order, voucher: voucher) 
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
     end
   end
 end
