@@ -289,4 +289,7 @@ Source on REST: https://spring.io/understanding/REST
   $ echo $PORT
   $ env
   $ export RAILS_ENV=production
+
+  $ puma -C config/puma.rb -d
   ```
+
