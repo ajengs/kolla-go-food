@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  attr_accessor :voucher_code
+  # attr_accessor :voucher_code
   has_many :line_items, dependent: :destroy
   belongs_to :voucher, optional: true
   enum payment_type: {
@@ -15,7 +15,7 @@ class Order < ApplicationRecord
   }
   validates :payment_type, inclusion: payment_types.keys
   
-  validate :ensure_voucher_exists
+  # validate :ensure_voucher_exists
   validate :voucher_valid_date
 
 
@@ -40,14 +40,14 @@ class Order < ApplicationRecord
   end
 
   private
-    def ensure_voucher_exists
-      if !voucher_code.empty?
-          voucher = Voucher.find_by(code: voucher_code.upcase)
-        if voucher.nil?
-          errors.add(:voucher_id, "not found")
-        end
-      end
-    end
+    # def ensure_voucher_exists
+    #   if !voucher_code.empty?
+    #       voucher = Voucher.find_by(code: voucher_code.upcase)
+    #     if voucher.nil?
+    #       errors.add(:voucher_id, "not found")
+    #     end
+    #   end
+    # end
 
     def voucher_valid_date
       if !voucher.nil? && (voucher.valid_from > Date.today || voucher.valid_through < Date.today)

@@ -121,9 +121,9 @@ describe OrdersController do
         }.to change{ ActionMailer::Base.deliveries.count }.by(1)
       end
 
-      it 'redirects to store index page' do
+      it 'redirects to order page' do
         post :create, params: { order: attributes_for(:order) }
-        expect(response).to redirect_to(store_index_path)
+        expect(response).to redirect_to(assigns(:order))
       end
     end
 
@@ -137,6 +137,38 @@ describe OrdersController do
       it 're-renders the :new template' do
         post :create, params: { order: attributes_for(:invalid_order) }
         expect(response).to render_template(:new)
+      end
+    end
+
+    context 'with voucher code' do
+      context 'with valid code' do
+        before :each do
+          @voucher = create(:voucher, code: 'DISC')
+        end
+
+        it 'saves order if voucher is found' do
+          expect{
+            post :create, params: { order: attributes_for(:order), voucher_code: 'disc' }
+          }.to change(Order, :count).by(1)
+        end
+
+        it 'redirects to order page' do
+          post :create, params: { order: attributes_for(:order) }
+          expect(response).to redirect_to(assigns(:order))
+        end
+      end
+
+      context 'with invalid code' do
+        it 'does not save order if voucher is not found' do
+          expect{
+            post :create, params: { order: attributes_for(:order), voucher_code: 'discount' }
+          }.not_to change(Order, :count)
+        end
+
+        it 're-renders the :new template' do
+          post :create, params: { order: attributes_for(:order), voucher_code: 'discount' }
+          expect(response).to render_template(:new)
+        end
       end
     end
   end
