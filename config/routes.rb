@@ -7,11 +7,15 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy
   end
   
-  resources :categories, :orders, :users, :vouchers
-  resources :carts
-  resources :line_items
   resources :buyers
+  resources :categories
+  resources :carts
   resources :foods
+  resources :line_items
+  resources :orders
+  resources :tags
+  resources :users
+  resources :vouchers
   root 'store#index', as: 'store_index'
   get 'home/hello'
   get 'home/goodbye'

@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe FoodsController do
+  before :each do
+    user = create(:user)
+    session[:user_id] = user.id
+  end
+
   describe 'GET #index' do
     context 'with params[:letter]' do
       it 'populates an array of foods starting with the letter' do
@@ -95,6 +100,15 @@ describe FoodsController do
       it 're-renders the :new template' do
         post :create, params: { food: attributes_for(:invalid_food) }
         expect(response).to render_template(:new)
+      end
+    end
+
+    context 'adding tags to food' do
+      it 'saves tags to food in the database' do
+        tag1 = create(:tag)
+        tag2 = create(:tag)
+        post :create, params: { food: attributes_for(:food, tag_ids:[tag1, tag2]) }
+        expect(assigns(:food).tags).to include(tag1, tag2)
       end
     end
   end

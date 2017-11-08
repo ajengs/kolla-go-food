@@ -13,7 +13,12 @@
           <dt><%= food.name %></dt>
           <dd><%= truncate(strip_tags(food.description), length:80) %></dd>
           <dd><%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %></dd>
-          <dd><span class="tags"><%= food.category.try(:name) %></span></dd>
+          <dd><span class="cats"><%= food.category.try(:name) %></span></dd>
+          <dd>
+            <% food.tags.each do |tag| %>
+              <span class="cats"><%= tag.name %></span>
+            <% end %>
+          </dd>
         </dl>
       </td>
       <td class="list_actions">
