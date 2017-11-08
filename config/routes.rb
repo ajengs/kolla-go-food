@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy
   end
   
-  resources :categories, :orders, :users
+  resources :categories, :orders, :users, :vouchers
   resources :carts
   resources :line_items
   resources :buyers

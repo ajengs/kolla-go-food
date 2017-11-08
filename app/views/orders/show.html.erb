@@ -29,6 +29,22 @@
     <th>Total Price:</strong></th>
     <td><%= number_to_currency(@order.total_price, unit: "Rp ", delimiter: ".", separator: ",") %></td>
   </tr>
+  <% if @order.voucher %>
+    <tr>
+      <th>Voucher:</strong></th>
+      <td><%= @order.voucher.code %></td>
+    </tr>
+
+    <tr>
+      <th>Discount:</strong></th>
+      <td><%= number_to_currency(@order.discount, unit: "Rp ", delimiter: ".", separator: ",") %></td>
+    </tr>
+
+    <tr>
+      <th>Total After Discount:</strong></th>
+      <td><%= number_to_currency(@order.total_after_discount, unit: "Rp ", delimiter: ".", separator: ",") %></td>
+    </tr>
+  <% end %>
 </table>
 <div class='order'>
   <fieldset>    
@@ -39,4 +55,4 @@
   </fieldset>
 </div>
 
-<p><%= link_to 'Back', orders_path %></p>
+<p><%= link_to 'Back', session[:user_id] ? orders_path : store_index_path %></p>

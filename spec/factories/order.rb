@@ -4,6 +4,8 @@ FactoryGirl.define do
     address {Faker::Address.street_address }
     email { Faker::Internet.email }
     payment_type "Cash"
+    voucher_code ''
+    association :voucher
   end
 
   factory :invalid_order, parent: :order do
