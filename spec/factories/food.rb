@@ -6,6 +6,8 @@ FactoryGirl.define do
     image_url 'orange-juice.jpg'
 
     association :category
+    association :restaurant
+    tag_ids {[]}
   end
 
   factory :invalid_food, parent: :food  do

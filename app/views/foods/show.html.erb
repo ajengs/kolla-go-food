@@ -1,29 +1,18 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <%= image_tag(@food.image_url, class: 'list_image') %>
-</p>
+<%= render @food %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @food.name %>
-</p>
+<div class='reviews'>
+  <h1>Reviews</h1>
+  <% @food.reviews.order(:created_at).reverse.each do |review| %>
+    <%= render review %>
+  <% end %>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= strip_tags(@food.description) %>
-</p>
+<% if session[:user_id] %>
+  <%= link_to 'Edit', edit_food_path(@food) %> |
+  <%= link_to 'Back', foods_path %>
+<% else %>
+  <%= link_to 'Back', store_index_path %>
+<% end %>
 
-
-<p>
-  <strong>Price:</strong>
-  <%= number_to_currency(@food.price, unit: "Rp ", delimiter: ".", separator: ",") %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @food.category.try(:name) %>
-</p>
-
-<%= link_to 'Edit', edit_food_path(@food) %> |
-<%= link_to 'Back', foods_path %>

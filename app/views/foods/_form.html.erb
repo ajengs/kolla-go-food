@@ -36,6 +36,18 @@
     <%= form.collection_select :category_id, Category.order(:name), :id, :name, include_blank: true %>
   </div>
 
+  <div class="field">
+    <%= form.label :tag %>
+    <%= collection_check_boxes(:food, :tag_ids, Tag.all, :id, :name) do |b| %>
+      <% b.label(:"data-value" => b.value, :"class" => "label_left") { b.check_box + b.text } %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :restaurant_id %>
+    <%= form.collection_select :restaurant_id, Restaurant.order(:name), :id, :name, include_blank: true %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

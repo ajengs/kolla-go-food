@@ -123,7 +123,7 @@ describe Voucher do
     end
   end
 
-  it "can't be destroyed wile it has order(s)" do
+  it "can't be destroyed while it has order(s)" do
     voucher = create(:voucher)
     order = create(:order, voucher: voucher)
 

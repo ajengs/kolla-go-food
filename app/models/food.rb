@@ -1,4 +1,10 @@
 class Food < ApplicationRecord
+  has_many :line_items
+  has_and_belongs_to_many :tags
+  has_many :reviews, as: :reviewable
+  belongs_to :category, optional: true
+  belongs_to :restaurant
+  
   validates :name, :description, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }
   validates :name, uniqueness: true
@@ -6,9 +12,7 @@ class Food < ApplicationRecord
     with: %r{\.(gif|jpg|png)\z}i,
     message: 'must be a URL for GIF, JPG or PNG image'
   }
-  has_many :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
-  belongs_to :category, optional: true
 
   def self.by_letter(letter)
     where("name LIKE ?", "#{letter}%").order(:name)

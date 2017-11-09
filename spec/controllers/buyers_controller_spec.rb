@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe BuyersController do
+  before :each do
+    user = create(:user)
+    session[:user_id] = user.id
+  end
+
   describe 'GET #index' do
     it 'populates an array of all buyers' do
       buyer1 = create(:buyer, name: 'Harry Potter')

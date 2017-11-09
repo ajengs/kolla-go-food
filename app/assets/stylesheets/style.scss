@@ -71,13 +71,13 @@ body, body > p, body > ol, body > ul, body > td {margin: 8px !important}
   }
 }
 
-p, div.tags_line {
-  margin-left: 20px;
+p, div.cats_line {
+  margin-left: 100px;
   margin-top: 0.5em;
   margin-bottom: 0.8em;
 }
 
-.tags {
+.cats {
   background-color: LightGrey;
   font-size: 10px;
 }
@@ -178,7 +178,12 @@ p, div.tags_line {
       margin-left: 0.5em;
     }
     
+    .label_left {
+      text-align: left;
+    }
+
     .submit {
+      clear: right;
       margin-left: 4em;
     }
     

@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>
+  <strong>Tag:</strong>
+  <%= @tag.name %>
+</h1>
+<% @tag.foods.each do |food| %>
+  <div class='entry'>
+  <%= image_tag(food.image_url) %>
+  <h3><%= food.name %></h3>
+  <%= sanitize(food.description) %>
+  <div class='price_line'>
+    <span class="price">
+      <%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %>
+    </span>
+  </div>
+</div>
+<% end %>
+
+<%= link_to 'Edit', edit_tag_path(@tag) %> |
+<%= link_to 'Back', tags_path %>

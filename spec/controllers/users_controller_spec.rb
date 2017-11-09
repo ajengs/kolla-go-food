@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 describe UsersController do
+  before :each do
+    @user = create(:user)
+    session[:user_id] = @user.id
+  end
+  
   describe 'GET #index' do
     it 'populates an array of all users' do
       user1 = create(:user, username: "user1")
       user2 = create(:user, username: "user2")
       get :index
-      expect(assigns(:users)).to match_array([user1, user2])
+      expect(assigns(:users)).to match_array([@user, user1, user2])
     end
 
     it 'renders the :index template' do

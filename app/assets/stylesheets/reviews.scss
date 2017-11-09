@@ -1,0 +1,27 @@
+// Place all the styles related to the reviews controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "store.scss";
+
+.reviews {
+  @extend .store;
+  .entry {
+    overflow: auto;
+    margin-top: 1em;
+    border-bottom: 1px dotted #77d;
+    min-height: 50px;
+
+    img {
+      width: 80px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      position: absolute;
+    }
+  }
+  .author{
+    font-size: x-small;
+  }
+  .create_date{
+    font-size: xx-small;
+  }
+}

@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe CategoriesController do
+  before :each do
+    user = create(:user)
+    session[:user_id] = user.id
+  end
+
   describe 'GET #index' do
     it 'populates an array of all categories' do
       category1 = create(:category, name: 'local')
@@ -27,7 +32,7 @@ describe CategoriesController do
       food1 = create(:food, category: category)
       food2 = create(:food, category: category)
       get :show, params: { id: category }
-      expect(assigns(:foods)).to match_array([food1, food2])
+      expect(assigns(:category).foods).to match_array([food1, food2])
     end
 
     it 'renders the :show template' do

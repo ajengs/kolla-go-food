@@ -293,3 +293,27 @@ Source on REST: https://spring.io/understanding/REST
   $ puma -C config/puma.rb -d
   ```
 
+* Tags feature
+  * Prepare spec and model for tag, generate migration for tag and foods_tags
+    ```
+    $ rails g model tag name
+    $ rails g migration CreateJoinTableFoodTag foods tags
+    ```
+    On migratin file for foods_tags, there will be 2 lines of options to choose.
+
+    Choose the first one `t.index [:food_id, :tag_id]`. Then run migration.`
+  * Prepare factory for tag
+  * Add association to food and tag model
+    ```
+    class Food < ApplicationRecord
+      #cut
+      has_and_belongs_to_many :tags
+      #cut
+    end
+    class Tag < ApplicationRecord
+      has_and_belongs_to_many :foods
+      #cut
+    end
+    ```
+  * Prepare controller spec, controller, and views for tags
+

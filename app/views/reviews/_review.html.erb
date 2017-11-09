@@ -1,0 +1,10 @@
+<div class='entry'>
+  <strong><%= review.title %></strong>
+  <div class="author">By: <%= review.name %></div>
+  <div>
+    <span><%= strip_tags(review.description) %></span>
+  </div>
+  <div class="create_date">
+    <%= review.created_at.strftime("%d-%b-%Y %H:%M:%S") %>
+  </div>
+</div>
