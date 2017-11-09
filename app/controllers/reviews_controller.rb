@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   skip_before_action :authorize
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-  before_action :load_reviewable, only: :new
+  before_action :load_reviewable, only: [:new, :create]
 
   # GET /reviews
   # GET /reviews.json
@@ -27,11 +27,11 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-    @review = Review.new(review_params)
+    @review = @reviewable.reviews.new(review_params) # equivalent what's written on new
 
     respond_to do |format|
       if @review.save
-        format.html { redirect_to store_index_path, notice: 'Review was successfully created.' }
+        format.html { redirect_to @reviewable, notice: 'Review was successfully created.' }
         format.json { render :show, status: :created, location: @review }
       else
         format.html { render :new }

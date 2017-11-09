@@ -8,7 +8,7 @@
 
 <div class='reviews'>
   <h1>Reviews</h1>
-  <% @restaurant.reviews.each do |review| %>
+  <% @restaurant.reviews.order(:created_at).reverse.each do |review| %>
     <%= render review %>
   <% end %>
 </div>
