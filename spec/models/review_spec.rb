@@ -26,4 +26,15 @@ describe Review do
     review.valid?
     expect(review.errors[:description]).to include("can't be blank")
   end
+
+  describe 'Food association' do
+    before :each do
+      @food = create(:food)
+    end
+
+    it 'saves food in reviewable' do
+      review = create(:review, reviewable: @food)
+      expect(review.reviewable_id).to eq(@food.id)
+    end
+  end
 end
