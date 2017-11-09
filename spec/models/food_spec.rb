@@ -123,4 +123,13 @@ describe Food do
       end
     end
   end
+
+  it 'should save tag ids attributes after save' do
+    food = create(:food)
+    tags = create_list(:tag, 3)
+    food.tag_ids = tags.collect(&:id)
+    food.save!
+    food.reload
+    expect(food.tags.collect(&:id)).to match_array(tags.collect(&:id))
+  end
 end

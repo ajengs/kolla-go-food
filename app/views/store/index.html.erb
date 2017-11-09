@@ -1,26 +1,37 @@
 <p id='notice'><%= notice %></p>
 <h1>Your Food Catalog</h1>
 
-<% @foods.each do |food| %>
-  <div class='entry'>
-    <%= image_tag(food.image_url) %>
-    <h3><%= food.name %></h3>
-    <%= sanitize(food.description) %>
-    <div class='price_line'>
-      <span class="price">
-        <%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %>
-        <%= button_to 'Add to Cart', line_items_path(food_id: food), remote: true %>
-      </span>
+<% @restaurants.each do |restaurant| %>
+
+  <h2>
+    <strong>Restaurant:</strong>
+    <%= link_to restaurant.name, restaurant_path(restaurant) %>
+  </h2>
+  <%= link_to 'Add Review', new_restaurant_review_path(restaurant_id: restaurant) %>
+  <% restaurant.foods.each do |food| %>
+    <div class='entry'>
+      <%= image_tag(food.image_url) %>
+      <h3><%= link_to food.name, food_path(food) %></h3>
+      <%= sanitize(food.description) %>
+      <div class='price_line'>
+        <span class="price">
+          <%= number_to_currency(food.price, unit: "Rp ", delimiter: ".", separator: ",") %>
+          <%= button_to 'Add to Cart', line_items_path(food_id: food), remote: true %>
+        </span>
+      </div>
+      <div class="cats_line">
+        <span class="cats"><%= food.category.try(:name) %></span>
+      </div>
+      
+      <div class="cats_line">
+        <% food.tags.each do |tag| %>
+          <span class="cats"><%= tag.name %></span>
+        <% end %>
+      </div>
+      <div class="cats_line">
+        <%= link_to 'Add Review', new_food_review_path(food_id: food) %>
+      </div>
+              
     </div>
-    <div class="cats_line">
-      <span class="cats"><%= food.category.try(:name) %></span>
-    </div>
-    
-    <div class="cats_line">
-      <% food.tags.each do |tag| %>
-        <span class="cats"><%= tag.name %></span>
-      <% end %>
-    </div>
-            
-  </div>
+  <% end %>
 <% end %>

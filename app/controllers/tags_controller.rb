@@ -1,5 +1,4 @@
 class TagsController < ApplicationController
-
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
 
   # GET /tags
@@ -57,8 +56,13 @@ class TagsController < ApplicationController
   def destroy
     @tag.destroy
     respond_to do |format|
-      format.html { redirect_to tags_url, notice: 'Tag was successfully destroyed.' }
-      format.json { head :no_content }
+      if @tag.destroy
+        format.html { redirect_to tags_url, notice: 'Tag was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to tags_path, notice: 'Tag is in use. Cannot be destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 

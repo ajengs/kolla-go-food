@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>
+  <strong>Restaurant:</strong>
+  <%= @restaurant.name %>
+</h1>
+<%= render @restaurant.foods %>
+
+<div class='reviews'>
+  <h1>Reviews</h1>
+  <% @restaurant.reviews.each do |review| %>
+    <%= render review %>
+  <% end %>
+</div>
+
+<% if session[:user_id] %>
+  <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+  <%= link_to 'Back', restaurants_path %>
+<% else %>
+  <%= link_to 'Back', store_index_path %>
+<% end %>

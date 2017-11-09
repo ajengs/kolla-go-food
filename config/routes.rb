@@ -10,9 +10,15 @@ Rails.application.routes.draw do
   resources :buyers
   resources :categories
   resources :carts
-  resources :foods
+  resources :foods do
+    resources :reviews
+  end
   resources :line_items
   resources :orders
+  resources :restaurants do
+    resources :reviews
+  end
+  resources :reviews
   resources :tags
   resources :users
   resources :vouchers

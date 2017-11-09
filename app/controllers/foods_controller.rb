@@ -1,4 +1,5 @@
 class FoodsController < ApplicationController
+  skip_before_action :authorize, only: :show
   before_action :set_food, only: [:show, :edit, :update, :destroy]
 
   # GET /foods
@@ -46,7 +47,7 @@ class FoodsController < ApplicationController
         format.json { render :show, status: :ok, location: @food }
 
         @foods = Food.all.order(:name)
-        ActionCable.server.broadcast 'foods', html: render_to_string('store/index', layout: false)
+        # ActionCable.server.broadcast 'foods', html: render_to_string('store/index', layout: false)
       else
         format.html { render :edit }
         format.json { render json: @food.errors, status: :unprocessable_entity }
@@ -72,6 +73,6 @@ class FoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def food_params
-      params.require(:food).permit(:name, :description, :image_url, :price, :category_id, tag_ids: [])
+      params.require(:food).permit(:name, :description, :image_url, :price, :category_id, :restaurant_id, tag_ids: [])
     end
 end

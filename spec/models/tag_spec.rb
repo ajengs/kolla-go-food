@@ -34,10 +34,12 @@ describe Tag do
     expect(tag.name).to eq('sweet')
   end
 
-  # it "can't be destroyed while it has food(s)" do
-  #   tag = create(:tag)
-  #   food = create(:food)
-  #   food_tag = create(:food_tag, food: food, tag: tag)
-  #   expect{ tag.destroy }.not_to change(Tag, :count)
-  # end
+  it "can't be destroyed while it has food(s)" do
+    tag = create(:tag)
+    food = create(:food)
+    food.tag_ids = [tag.id]
+    food.save!
+    food.reload
+    expect{ tag.destroy }.not_to change(Tag, :count)
+  end
 end
