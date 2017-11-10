@@ -192,3 +192,14 @@ p, div.cats_line {
     }
   }
 }
+
+.search {
+  form{
+    label {
+      width: 100px;
+    }
+    .text_area {
+      width: 400px;
+    }
+  }
+}

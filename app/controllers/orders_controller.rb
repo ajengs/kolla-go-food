@@ -6,7 +6,11 @@ class OrdersController < ApplicationController
   before_action :ensure_cart_isnt_empty, only: :new
 
   def index
-    @orders = Order.all
+    if params[:order]
+      @orders = Order.search_by(params[:order])
+    else
+      @orders = Order.all
+    end
   end
 
   def show
@@ -22,6 +26,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_items(@cart)
+    @order.total_price = @order.set_total_price
     @order.voucher = Voucher.find_by(code: order_params[:voucher_code].upcase)
 
     respond_to do |format|

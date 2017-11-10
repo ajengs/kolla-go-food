@@ -2,6 +2,9 @@
 
 <h1>Foods</h1>
 
+<h2>Search</h2>
+<%= render template: 'foods/search' %>
+
 <table>
   <% @foods.each do |food| %>
     <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">

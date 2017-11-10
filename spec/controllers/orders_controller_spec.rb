@@ -22,6 +22,46 @@ describe OrdersController do
       get :index
       expect(response).to render_template(:index)
     end
+    
+    context 'with searching parameters' do
+      before :each do
+        @food1 = create(:food, price: 25000)
+        @order1 = create(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
+        @line_item1 = create(:line_item, food: @food1, quantity: 1, order: @order1)
+        @order2 = create(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
+        line_item2 = create(:line_item, food: @food1, quantity: 3, order: @order2)
+      end
+
+      it 'populates an array of orders containing name param' do
+        get :index, params: { order: { name: 'ajeng' } }
+        expect(assigns(:orders)).to match_array([@order1])
+      end
+
+      it 'populates an array of orders containing address param' do
+        get :index, params: { order: { address: '4A' } }
+        expect(assigns(:orders)).to match_array([@order2])
+      end
+
+      it 'populates an array of orders containing email param' do
+        get :index, params: { order: { email: 'bas@ggg' } }
+        expect(assigns(:orders)).to match_array([@order1, @order2])
+      end
+
+      it 'populates an array of orders with total_price >= params' do
+        get :index, params: { order: { min_total: 40000 } }
+        expect(assigns(:orders)).to match_array([@order2])
+      end
+
+      it 'populates an array of foods with total_price <= params' do
+        get :index, params: { order: { max_total: 25000 } }
+        expect(assigns(:orders)).to match_array([@order1])
+      end
+
+      it 'populates an array of foods with combination of search params' do
+        get :index, params: { order: { email: 'ajeng', address: '4A' } }
+        expect(assigns(:orders)).to match_array([])
+      end
+    end
   end
 
   describe 'GET #show' do

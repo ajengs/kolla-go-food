@@ -22,6 +22,15 @@ class Food < ApplicationRecord
     where("category_id = ?", category_id)
   end
 
+  def self.search_by(params)  
+    @foods = Food.where('name LIKE :name AND description LIKE :description AND price >= :min_price',
+      { name: "%#{params[:name]}%", 
+        description: "%#{params[:description]}%", 
+        min_price: params[:min_price].to_i })
+    @foods = @foods.where('price <= ?', params[:max_price]) unless params[:max_price].nil? || params[:max_price].empty?
+    @foods
+  end
+
   private
     def ensure_not_referenced_by_any_line_item
       unless line_items.empty?

@@ -1,0 +1,27 @@
+<div class="search go_food_form">
+  <%= form_tag("/foods", method: "get") do %>
+    <div class="field">
+      <%= label_tag(:food_name, "Name:") %>
+      <%= search_field_tag('food[name]', (params[:food][:name] unless params[:food].nil?)) %>
+    </div>
+
+    <div class="field">
+      <%= label_tag(:food_description, "Description:") %>
+      <%= search_field_tag('food[description]', params[:food].try(:[],:description), class: 'text_area') %>
+    </div>
+
+    <div class="field">
+      <%= label_tag(:food_min_price, "Minimum Price:") %>
+      <%= search_field_tag('food[min_price]', params[:food].try(:[],:min_price)) %>
+    </div>
+
+    <div class="field">
+      <%= label_tag(:food_max_price, "Maximum Price:") %>
+      <%= search_field_tag('food[max_price]', params[:food].try(:[],:max_price)) %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag("Search", name: nil) %>
+    </div>
+  <% end %>
+</div>

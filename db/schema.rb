@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171108091502) do
+ActiveRecord::Schema.define(version: 20171110084157) do
 
   create_table "buyers", force: :cascade do |t|
     t.string "email"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20171108091502) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "voucher_id"
+    t.integer "total_price"
     t.index ["voucher_id"], name: "index_orders_on_voucher_id"
   end
 

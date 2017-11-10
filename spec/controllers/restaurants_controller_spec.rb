@@ -18,6 +18,35 @@ describe RestaurantsController do
       get :index
       expect(response).to render_template(:index)
     end
+
+    context 'with searching parameters' do
+      before :each do
+        @restaurant1 = create(:restaurant, name: 'ABC', address: 'jl abc')
+        @restaurant1 = create(:restaurant, name: 'ABC DEF', address: 'def')
+        @restaurant1 = create(:restaurant, name: 'GHI', address: 'jl ghi')
+      end
+
+      it 'populates an array of restaurants containing name param' do
+        get :index, params: { restaurant: { name: 'ABC' } }
+        expect(assigns(:restaurants)).to match_array([@restaurant1, @restaurant2])
+      end
+
+      it 'populates an array of restaurants containing address param' do
+        get :index, params: { restaurant: { address: 'jl' } }
+        expect(assigns(:restaurants)).to match_array([@restaurant1, @restaurant3])
+      end
+
+      it 'populates an array of restaurants with food count >= params' do
+      end
+
+      it 'populates an array of restaurants with food count <= params' do
+      end
+
+      it 'populates an array of restaurants with combination of search params' do
+        get :index, params: { restaurant: { name: 'ABC', address: 'def' } }
+        expect(assigns(:restaurants)).to match_array([@restaurant1, @restaurant2])
+      end
+    end
   end
 
   describe 'GET #show' do

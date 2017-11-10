@@ -34,6 +34,44 @@ describe FoodsController do
         expect(response).to render_template(:index)
       end
     end
+
+    context 'with searching parameters' do
+      before :each do
+        @food1 = create(:food, name: 'Beef Burger', description: 'burger daging sapi', price: 25000)
+        @food2 = create(:food, name: 'Chicken Burger', description: 'burger ayam', price: 20000)
+        @food3 = create(:food, name: 'Spaghetti', description: 'Classic Italian pasta', price: 40000)
+      end
+
+      it 'populates an array of foods containing name param' do
+        get :index, params: { food: {name: 'burger'} }
+        expect(assigns(:foods)).to match_array([@food1, @food2])
+      end
+
+      it 'populates an array of foods containing description param' do
+        get :index, params: { food: {description: 'ayam'} }
+        expect(assigns(:foods)).to match_array([@food2])
+      end
+
+      it 'populates an array of foods with price >= params' do
+        get :index, params: { food: {min_price: 25000} }
+        expect(assigns(:foods)).to match_array([@food1, @food3])
+      end
+
+      it 'populates an array of foods with price <= params' do
+        get :index, params: { food: {max_price: 25000} }
+        expect(assigns(:foods)).to match_array([@food1, @food2])
+      end
+
+      it 'populates an array of foods with combination of search params' do
+        get :index, params: { food: {name: 'burger', description: 'ayam', max_price: 25000} }
+        expect(assigns(:foods)).to match_array([@food2])
+      end
+
+      it 'renders :index template' do
+        get :index, params: { food: {name: 'burger', description: 'ayam', max_price: 25000} }
+        expect(response).to render_template(:index)
+      end
+    end
   end
 
   describe 'GET #show' do

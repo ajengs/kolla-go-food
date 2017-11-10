@@ -26,7 +26,7 @@ class Order < ApplicationRecord
     end
   end
 
-  def total_price
+  def set_total_price
     line_items.reduce(0) { |sum, i| sum + i.total_price }
   end
 
@@ -37,6 +37,17 @@ class Order < ApplicationRecord
   def total_after_discount
     total = total_price - discount
     total < 0 ? 0 : total
+  end
+
+  def self.search_by(params)
+    @orders = Order.where('name LIKE :name AND address LIKE :address AND email LIKE :email',
+      { name: "%#{params[:name]}%", 
+        address: "%#{params[:address]}%", 
+        email: "%#{params[:email]}%" })
+    @orders = @orders.where(payment_type: params[:payment_type]) if params[:payment_type].present?
+    @orders = @orders.where("total_price >= :min_total_price", { min_total_price: params[:min_total_price] }) if params[:min_total_price].present?
+    @orders = @orders.where("total_price <= :max_total_price", { max_total_price: params[:max_total_price] }) if params[:max_total_price].present?
+    @orders
   end
 
   private
