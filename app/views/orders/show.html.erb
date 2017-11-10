@@ -1,0 +1,58 @@
+<p id="notice"><%= notice %></p>
+<table>
+  <tr>
+    <th>Order ID:</th>
+    <td><%= @order.id %></td>
+  </tr>
+
+  <tr>
+    <th>Name:</strong></th>
+    <td><%= @order.name %></td>
+  </tr>
+
+  <tr>
+    <th>Address:</strong></th>
+    <td><%= @order.address %></td>
+  </tr>
+
+  <tr>
+    <th>Email:</strong></th>
+    <td><%= @order.email %></td>
+  </tr>
+
+  <tr>
+    <th>Payment Type:</strong></th>
+    <td><%= @order.payment_type %></td>
+  </tr>
+
+  <tr>
+    <th>Total Price:</strong></th>
+    <td><%= number_to_currency(@order.total_price, unit: "Rp ", delimiter: ".", separator: ",") %></td>
+  </tr>
+  <% if @order.voucher %>
+    <tr>
+      <th>Voucher:</strong></th>
+      <td><%= @order.voucher.code %></td>
+    </tr>
+
+    <tr>
+      <th>Discount:</strong></th>
+      <td><%= number_to_currency(@order.discount, unit: "Rp ", delimiter: ".", separator: ",") %></td>
+    </tr>
+
+    <tr>
+      <th>Total After Discount:</strong></th>
+      <td><%= number_to_currency(@order.total_after_discount, unit: "Rp ", delimiter: ".", separator: ",") %></td>
+    </tr>
+  <% end %>
+</table>
+<div class='order'>
+  <fieldset>    
+    <legend>Order details</legend>
+    <table>
+      <%= render (@order.line_items) %>
+    </table>
+  </fieldset>
+</div>
+
+<p><%= link_to 'Back', session[:user_id] ? orders_path : store_index_path %></p>

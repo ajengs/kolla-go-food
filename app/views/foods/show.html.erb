@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<%= render @food %>
+
+<div class='reviews'>
+  <h1>Reviews</h1>
+  <% @food.reviews.order(:created_at).reverse.each do |review| %>
+    <%= render review %>
+  <% end %>
+</div>
+
+<% if session[:user_id] %>
+  <%= link_to 'Edit', edit_food_path(@food) %> |
+  <%= link_to 'Back', foods_path %>
+<% else %>
+  <%= link_to 'Back', store_index_path %>
+<% end %>
+

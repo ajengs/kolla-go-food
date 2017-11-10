@@ -1,0 +1,8 @@
+<h1>Hello from Go-Food!</h1>
+<p>It is now <%= @time.strftime('%A, %d-%b-%Y') %></p>
+Registered Users:
+<ul>
+  <% @users.each do |user| %>
+    <li><%= user.username %> - <%= user.full_name %></li>
+  <% end %>
+</ul>

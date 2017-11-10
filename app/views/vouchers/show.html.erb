@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @voucher.code %>
+</p>
+
+<p>
+  <strong>Unit:</strong>
+  <%= @voucher.unit %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= number_to_currency(@voucher.amount, unit: "Rp ", delimiter: ".", separator: ",") %>
+</p>
+
+<p>
+  <strong>Valid from:</strong>
+  <%= @voucher.valid_from %>
+</p>
+
+<p>
+  <strong>Valid through:</strong>
+  <%= @voucher.valid_through %>
+</p>
+
+<p>
+  <strong>Max Amount:</strong>
+  <%= number_to_currency(@voucher.max_amount, unit: "Rp ", delimiter: ".", separator: ",") %>
+</p>
+
+<%= link_to 'Edit', edit_voucher_path(@voucher) %> |
+<%= link_to 'Back', vouchers_path %>

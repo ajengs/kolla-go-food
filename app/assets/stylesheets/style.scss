@@ -1,0 +1,194 @@
+body, body > p, body > ol, body > ul, body > td {margin: 8px !important}
+
+#banner {
+  position: relative;
+  min-height: 40px;
+  background: white;
+  padding: 10px;
+  border-bottom: 2px solid;
+  font: small-caps 40px/40px "Times New Roman", serif;
+  color: #282;
+  text-align: center;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 192px;
+  }
+}
+
+#notice:empty {
+  display: none;
+}
+
+#columns {
+  background: #9c9;
+  display: flex;
+
+  #main {
+    padding: 1em;
+    background: white;
+    flex: 1;
+  }
+
+  #side {
+    padding: 1em 2em;
+    background: #9c9;
+
+    form, div {
+      display: inline;
+    }
+
+    input {
+      font-size: small;
+    }
+
+    #cart {
+      font-size: smaller;
+      color: dark-grey;
+
+      table {
+        border-top: 1px dotted #595;
+        border-bottom: 1px dotted #595;
+        margin-bottom: 10px;
+      }
+    }
+
+    ul {
+      padding: 0;
+
+      li {
+        list-style: none;
+
+        a {
+          color: #141;
+          font-size: small;
+        }
+      }
+    }
+  }
+}
+
+p, div.cats_line {
+  margin-left: 100px;
+  margin-top: 0.5em;
+  margin-bottom: 0.8em;
+}
+
+.cats {
+  background-color: LightGrey;
+  font-size: 10px;
+}
+
+@media all and (max-width: 800px) {
+  #columns {
+    flex-direction: column-reverse;
+  }
+}
+
+@media all and (max-width: 500px) {
+  #banner {
+    height: 1em;
+  }
+
+  #banner .title {
+    display: none;
+  }
+}
+
+.style {
+  table {
+/*    border-collapse: collapse;*/
+  }
+
+  table tr {
+    border: solid #fff;
+  }
+  table tr td {
+    padding: 5px;
+    vertical-align: top;
+  }
+
+  .list_image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .list_description {
+    width: 400px;
+    
+    dl {
+      margin: 0;
+    }
+
+    dt {
+      color: #244;
+      font-weight: bold;
+      font-size: larger;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  .list_action {
+    font-size: x-small;
+    font-align: right;
+    padding-left: 1em;
+  }
+
+  .list_line_even {
+    background: #d9dbdd;
+  }
+
+  .list_line_odd {
+    background: #b7cfe8;
+  }
+}
+
+.go_food_form {
+  fieldset {
+    background: #efe;
+    legend {
+      color: #dfd;
+      background: #141;
+      font-family: sans-serif;
+      padding: 0.2em 1em;
+    }
+    
+    div {
+      margin-bottom: 0.3em;
+    }
+  }
+
+  form { 
+    label {
+      width: 7em;
+      float: left;
+      text-align: right;
+      padding-top: 0.2em;
+      margin-right: 0.1em;
+      display: block;
+    }
+    
+    select, textarea, input {
+      margin-left: 0.5em;
+    }
+    
+    .label_left {
+      text-align: left;
+    }
+
+    .submit {
+      clear: right;
+      margin-left: 4em;
+    }
+    
+    br {
+      display: none;
+    }
+  }
+}
