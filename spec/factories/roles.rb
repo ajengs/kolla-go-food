@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :role do
-    name 'administrator'
+    sequence :name do |n|
+      "role #{n}"
+    end
   end
 
   factory :invalid_role, parent: :role do

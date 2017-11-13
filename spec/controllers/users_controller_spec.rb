@@ -86,6 +86,14 @@ describe UsersController do
         expect(response).to render_template(:new)
       end
     end
+
+    context 'with roles assigned' do
+      it 'saves role_id(s) in the database for that user' do
+        role = create(:role)
+        post :create, params: { user: attributes_for(:user, role_ids: [role]) }
+        expect(assigns(:user).roles).to include(role)
+      end
+    end
   end
 
   describe 'PATCH #update' do
@@ -127,6 +135,18 @@ describe UsersController do
       it 're-renders the :edit template' do
         patch :update, params: { id: @user, user: attributes_for(:invalid_user) }
         expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'with roles assigned' do
+      it 'saves role_id(s) in the database for that user' do
+        role = create(:role)
+        role2 = create(:role)
+        user = create(:user)
+        user.roles << role
+
+        post :update, params: { id: user, user: attributes_for(:user, role_ids: [role2]) }
+        expect(assigns(:user).roles).to include(role2)
       end
     end
   end
