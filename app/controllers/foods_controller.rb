@@ -10,7 +10,6 @@ class FoodsController < ApplicationController
     else
       @foods = params[:letter].nil? ? Food.all : Food.by_letter(params[:letter])
     end
-    @foods = params[:letter].nil? ? Food.all : Food.by_letter(params[:letter])
   end
 
   # GET /foods/1
@@ -81,6 +80,5 @@ class FoodsController < ApplicationController
       params.require(:food).permit(:name, :description, :image_url, :price,
         :category_id, :restaurant_id,
         tag_ids: [])
-      params.require(:food).permit(:name, :description, :image_url, :price, :category_id, :restaurant_id, tag_ids: [])
     end
 end

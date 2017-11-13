@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
     else
       @orders = Order.all
     end
-    @orders = Order.all
   end
 
   def show

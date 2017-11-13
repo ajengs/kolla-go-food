@@ -10,7 +10,6 @@ class RestaurantsController < ApplicationController
     else
       @restaurants = Restaurant.all
     end
-    @restaurants = Restaurant.all
   end
 
   # GET /restaurants/1
