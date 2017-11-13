@@ -5,6 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Order.delete_all
+LineItem.delete_all
+Review.delete_all
+
+Food.delete_all
+
 Restaurant.delete_all
 
 Restaurant.create!(
@@ -23,7 +30,17 @@ Restaurant.create!(
     }
   ]
 )
-Food.delete_all
+
+Category.delete_all
+
+Category.create!(
+  [
+    { name: 'local' },
+    { name: 'spicy' },
+    { name: 'sweet' },
+    { name: 'recommended' },
+  ]
+)
 
 Food.create!(
   name: "Tenderloin Steak",
@@ -96,17 +113,6 @@ Buyer.create!(
   ]
 )
 
-Category.delete_all
-
-Category.create!(
-  [
-    { name: 'local' },
-    { name: 'spicy' },
-    { name: 'sweet' },
-    { name: 'recommended' },
-  ]
-)
-
 User.delete_all
 
 User.create!(
@@ -118,3 +124,10 @@ User.create!(
     }
   ]
 )
+
+Role.create!(
+  [
+    { name: 'administrator' },
+    { name: 'customer' }
+  ]
+) 
