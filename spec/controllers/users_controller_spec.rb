@@ -216,7 +216,7 @@ describe UsersController do
 
       it 're-renders topup template' do
         patch :save_topup, params: { id: @user, user: attributes_for(:user, gopay: -50000) }
-        expect(response).to renders(:topup)
+        expect(response).to render_template(:topup)
       end
     end
   end
