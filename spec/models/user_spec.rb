@@ -73,4 +73,18 @@ describe User do
     user = create(:user)
     expect(user.gopay).to eq(200000) 
   end
+
+  it 'is invalid with non numeric gopay' do
+    user = create(:user)
+    user.gopay = '1ooo'
+    user.valid?
+    expect(user.errors[:gopay]).to include('is not a number')
+  end
+
+  it 'is invalid with gopay amount entry < 0' do
+    user = create(:user)
+    user.gopay = -100
+    user.valid?
+    expect(user.errors[:gopay]).to include('must be greater than 0')
+  end
 end

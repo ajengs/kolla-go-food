@@ -149,6 +149,11 @@ describe UsersController do
         expect(assigns(:user).roles).to include(role2)
       end
     end
+
+    it 'does not update gopay attribute when updating user' do
+      patch :update, params: { id: @user, user: attributes_for(:user, gopay: 100000) }
+      expect(assigns(:user).gopay).not_to eq(100000)
+    end
   end
 
   describe 'DELETE #destroy' do
@@ -165,6 +170,54 @@ describe UsersController do
     it 'redirects to user#index' do
       delete :destroy, params: { id: @user }
       expect(response).to redirect_to(users_path)
+    end
+  end
+
+  describe 'GET #topup' do
+    before :each do
+      @user = create(:user)
+    end
+
+    it 'assigns the requested user to @user' do
+      get :topup, params: { id: user }
+      expect(assigns(:user)).to eq(user)
+    end
+
+    it 'renders the :topup template' do
+      get :topup, params: { id: user }
+      expect(response).to render_template(:topup)
+    end
+  end
+
+  describe 'PATCH #save_topup' do
+    before :each do
+      @user = create(:user, gopay: 100000)
+    end
+
+    context 'with valid gopay amount' do
+      it "adds topup amount to user's gopay in the database" do
+        patch :save_topup, params: { id: @user, user: attributes_for(gopay: 150000) }
+        @user.reload
+        expect(@user.gopay).to eq(250000)
+      end
+
+      it 'redirect to the user' do
+        patch :save_topup, params: { id: @user, user: attributes_for(gopay: 150000) }
+        expect(response).to redirect_to(users_path)
+      end
+    end
+
+    context 'with invalid gopay amount' do
+      it "does not change topup amount to user's gopay in the database" do
+        patch :save_topup, params: { id: @user, user: attributes_for(gopay: -50000) }
+        @user.reload
+        expect(@user.gopay).not_to eq(50000)
+      end
+
+      it 're-renders topup template' do
+        patch :save_topup, params: { id: @user, user: attributes_for(gopay: -50000) }
+        expect(response).to renders(:topup)
+      end
     end
   end
 end

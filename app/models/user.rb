@@ -6,4 +6,5 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
   validates :password, length: { minimum: 8 }, allow_blank: true
+  validates :gopay, numericality: { greater_than: 0 }
 end
