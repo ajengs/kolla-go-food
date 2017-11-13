@@ -5,6 +5,7 @@ class Restaurant < ApplicationRecord
   validates :name, uniqueness: true
   before_destroy :ensure_not_referenced_by_any_food
 
+
   scope :grouped_by_order, -> { joins(foods: { line_items: :order }).group("restaurants.name").count }
   scope :grouped_by_total_price, -> { joins(foods: { line_items: :order }).group("restaurants.name").sum("orders.total_price") }
   
@@ -31,4 +32,5 @@ class Restaurant < ApplicationRecord
         throw :abort
       end
     end
+
 end

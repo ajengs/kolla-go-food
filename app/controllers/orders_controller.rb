@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
     else
       @orders = Order.all
     end
+    @orders = Order.all
   end
 
   def show
@@ -27,6 +28,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.add_line_items(@cart)
     @order.total_price = @order.set_total_price
+
     @order.voucher = Voucher.find_by(code: order_params[:voucher_code].upcase)
 
     respond_to do |format|

@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :food do
+
     sequence(:name) { |n| "Food-#{n}" }
     description { "Made by #{Faker::Food.ingredient} mixed with #{Faker::Food.ingredient}" }
     price 10000.0

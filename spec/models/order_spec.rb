@@ -65,7 +65,9 @@ describe Order do
     end
   end
 
+
   it 'saves total of subtotal price from all line items' do
+
     order = create(:order)
     food1 = create(:food, price: 5000)
     line_item1 = create(:line_item, food: food1, order: order, quantity: 2)

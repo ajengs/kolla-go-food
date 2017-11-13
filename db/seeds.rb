@@ -23,7 +23,6 @@ Restaurant.create!(
     }
   ]
 )
-
 Food.delete_all
 
 Food.create!(
