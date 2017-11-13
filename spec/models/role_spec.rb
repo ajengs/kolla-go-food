@@ -21,4 +21,8 @@ describe Role do
     role2.valid?
     expect(role2.errors[:name]).to include("has already been taken")
   end
+
+  describe "relations" do
+    it { should have_many(:users).through(:assignments) }
+  end
 end

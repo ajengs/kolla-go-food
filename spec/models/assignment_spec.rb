@@ -22,7 +22,7 @@ describe Assignment do
   end
 
   describe 'relations' do
-    it { should belong_to_many(:users) }
-    it { should belong_to_many(:roles) }
+    it { should belong_to(:user) }
+    it { should belong_to(:role) }
   end
 end

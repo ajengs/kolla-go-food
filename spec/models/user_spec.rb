@@ -64,4 +64,8 @@ describe Order do
       expect(@user.valid?).to eq(true)
     end
   end
+
+  describe "relations" do
+    it { should have_many(:roles).through(:assignments) }
+  end
 end
