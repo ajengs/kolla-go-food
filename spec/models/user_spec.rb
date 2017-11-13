@@ -68,4 +68,9 @@ describe User do
   describe "relations" do
     it { should have_many(:roles).through(:assignments) }
   end
+
+  it "save default go pay credit when user created" do
+    user = create(:user)
+    expect(user.gopay).to eq(200000) 
+  end
 end
