@@ -316,4 +316,3 @@ Source on REST: https://spring.io/understanding/REST
     end
     ```
   * Prepare controller spec, controller, and views for tags
-
