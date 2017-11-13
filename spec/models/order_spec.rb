@@ -71,6 +71,7 @@ describe Order do
     line_item1 = create(:line_item, food: food1, order: order, quantity: 2)
     food2 = create(:food, price: 10000)
     line_item2 = create(:line_item, food: food2, order: order)
+    order.total_price = order.set_total_price
     expect(order.total_price).to eq(20000)
   end
 
@@ -81,6 +82,7 @@ describe Order do
         @order = create(:order, voucher: @voucher)
         @food1 = create(:food, price: 50000)
         @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+        @order.total_price = @order.set_total_price
       end    
 
       it 'returns the amount of discount' do

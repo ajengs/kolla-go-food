@@ -28,8 +28,13 @@ describe OrdersController do
         @food1 = create(:food, price: 25000)
         @order1 = create(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
         @line_item1 = create(:line_item, food: @food1, quantity: 1, order: @order1)
+        @order1.total_price = @order1.set_total_price
+        @order1.save
+
         @order2 = create(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
-        line_item2 = create(:line_item, food: @food1, quantity: 3, order: @order2)
+        @line_item2 = create(:line_item, food: @food1, quantity: 3, order: @order2)
+        @order2.total_price = @order2.set_total_price
+        @order2.save
       end
 
       it 'populates an array of orders containing name param' do
@@ -48,12 +53,12 @@ describe OrdersController do
       end
 
       it 'populates an array of orders with total_price >= params' do
-        get :index, params: { order: { min_total: 40000 } }
+        get :index, params: { order: { min_total_price: 40000 } }
         expect(assigns(:orders)).to match_array([@order2])
       end
 
       it 'populates an array of foods with total_price <= params' do
-        get :index, params: { order: { max_total: 25000 } }
+        get :index, params: { order: { max_total_price: 25000 } }
         expect(assigns(:orders)).to match_array([@order1])
       end
 

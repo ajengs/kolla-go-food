@@ -14,6 +14,9 @@ class Food < ApplicationRecord
   }
   before_destroy :ensure_not_referenced_by_any_line_item
 
+  scope :grouped_by_order, -> { joins(line_items: :order).group("foods.name").count }
+  scope :grouped_by_total_price, -> { joins(line_items: :order).group("foods.name").sum("orders.total_price") }
+
   def self.by_letter(letter)
     where("name LIKE ?", "#{letter}%").order(:name)
   end
