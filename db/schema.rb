@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20171110084157) do
+ActiveRecord::Schema.define(version: 20171113063004) do
 
   create_table "buyers", force: :cascade do |t|
     t.string "email"
@@ -90,6 +89,12 @@ ActiveRecord::Schema.define(version: 20171110084157) do
     t.string "title"
     t.text "description"
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable_type_and_reviewable_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tags", force: :cascade do |t|
