@@ -67,6 +67,7 @@ describe User do
 
   describe "relations" do
     it { should have_many(:roles).through(:assignments) }
+    it { should have_many(:orders) }
   end
 
   describe 'adding gopay amount' do

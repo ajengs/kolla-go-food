@@ -124,4 +124,8 @@ describe Order do
       end
     end
   end
+
+  describe 'relations' do
+    it { should belong_to(:user) }
+  end
 end
