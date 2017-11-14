@@ -128,4 +128,45 @@ describe Order do
   describe 'relations' do
     it { should belong_to(:user) }
   end
+
+  describe 'paying with gopay' do
+    
+
+    context "with sufficient gopay credit" do
+      before :each do
+        @user = create(:user, gopay: 100000)
+        @order = build(:order, user: @user, payment_type: 'Go Pay')
+        @food1 = create(:food, price: 50000)
+        @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+        @order.total_price = @order.set_total_price
+      end 
+
+      it 'is valid with sufficient gopay credit' do
+        expect(@order).to be_valid
+      end
+
+      it 'substracts user gopay credit with total_price' do
+        expect(@order.user.gopay).to eq(0)
+      end
+    end
+
+    context 'with insufficient gopay credit' do
+      before :each do
+        @user = create(:user, gopay: 10000)
+        @order = build(:order, user: @user, payment_type: 'Go Pay')
+        @food1 = create(:food, price: 50000)
+        @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+        @order.total_price = @order.set_total_price
+      end 
+
+      it 'is invalid with insufficient gopay credit' do
+        @order.valid?
+        expect(@order.errors[:payment_type]).to include("insufficient gopay credit")
+      end
+
+      it 'does not substracts user gopay' do
+        expect(@order.user.gopay).not_to eq(0)
+      end
+    end
+  end
 end
