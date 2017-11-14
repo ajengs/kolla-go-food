@@ -196,26 +196,26 @@ describe UsersController do
 
     context 'with valid gopay amount' do
       it "adds topup amount to user's gopay in the database" do
-        patch :save_topup, params: { id: @user, user: attributes_for(:user, gopay: 150000) }
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: 150000 }
         @user.reload
         expect(@user.gopay).to eq(250000)
       end
 
       it 'redirect to the user' do
-        patch :save_topup, params: { id: @user, user: attributes_for(:user, gopay: 150000) }
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: 150000 }
         expect(response).to redirect_to(users_path)
       end
     end
 
     context 'with invalid gopay amount' do
       it "does not change topup amount to user's gopay in the database" do
-        patch :save_topup, params: { id: @user, user: attributes_for(:user, gopay: -50000) }
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: -50000 }
         @user.reload
         expect(@user.gopay).not_to eq(50000)
       end
 
       it 're-renders topup template' do
-        patch :save_topup, params: { id: @user, user: attributes_for(:user, gopay: -50000) }
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: -50000 }
         expect(response).to render_template(:topup)
       end
     end

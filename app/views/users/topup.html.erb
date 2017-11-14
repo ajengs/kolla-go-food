@@ -1,0 +1,29 @@
+<%= form_for @user, :url => { :action => 'save_topup' } do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend>TopUp Go Pay</legend>
+    <div class="field">
+      <%= label :topup_gopay, 'Topup Gopay' %>
+      <%= text_field_tag :topup_gopay, params[:topup_gopay] %>
+    </div>
+
+    <div class="field">
+      <%= f.hidden_field :gopay %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  </fieldset>
+<% end %>

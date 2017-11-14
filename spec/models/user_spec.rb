@@ -69,22 +69,45 @@ describe User do
     it { should have_many(:roles).through(:assignments) }
   end
 
-  it "save default go pay credit when user created" do
-    user = create(:user)
-    expect(user.gopay).to eq(200000) 
-  end
+  describe 'adding gopay amount' do
+    it "save default go pay credit when user created" do
+      user = create(:user)
+      expect(user.gopay).to eq(200000) 
+    end
 
-  it 'is invalid with non numeric gopay' do
-    user = create(:user)
-    user.gopay = '1ooo'
-    user.valid?
-    expect(user.errors[:gopay]).to include('is not a number')
-  end
+    it 'is invalid with non numeric gopay' do
+      user = create(:user)
+      user.gopay = '1ooo'
+      user.valid?
+      expect(user.errors[:gopay]).to include('is not a number')
+    end
 
-  it 'is invalid with gopay amount entry < 0' do
-    user = create(:user)
-    user.gopay = -100
-    user.valid?
-    expect(user.errors[:gopay]).to include('must be greater than 0')
+    it 'is invalid with gopay amount entry < 0' do
+      user = create(:user)
+      user.gopay = -100
+      user.valid?
+      expect(user.errors[:gopay]).to include('must be greater than 0')
+    end
+
+    it 'updates gopay amount with valid topup gopay' do
+      user = create(:user, gopay: 200000)
+      topup_gopay = 100000
+      user.topup(topup_gopay)
+      expect(user.gopay).to eq(300000)
+    end
+
+    it 'is invalid with non numeric topup_gopay ' do
+      user = create(:user)
+      topup_gopay = "1ooo"
+      user.topup(topup_gopay)
+      expect(user.errors[:gopay]).to include("is not a number")
+    end
+
+    it 'is invalid with topup_gopay amount entry < 0' do
+      user = create(:user)
+      topup_gopay = -20000
+      user.topup(topup_gopay)
+      expect(user.errors[:gopay]).to include('must be greater than 0')
+    end
   end
 end

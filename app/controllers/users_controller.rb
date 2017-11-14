@@ -55,9 +55,8 @@ class UsersController < ApplicationController
   end
 
   def save_topup
-    # gopay = @user.gopay + topup_params[:gopay].to_i
     respond_to do |format|
-      if @user.topup(topup_params[:gopay].to_i)
+      if @user.topup(params[:topup_gopay])
         @users = User.all
         format.html { redirect_to users_url, notice: "Topup was successfully updated" }
         format.json { render :show, status: :ok, location: @user }
@@ -78,6 +77,6 @@ class UsersController < ApplicationController
     end
 
     def topup_params
-      params.require(:user).permit(:gopay)
+      params.require(:user).permit(:gopay, :topup_gopay)
     end
 end
