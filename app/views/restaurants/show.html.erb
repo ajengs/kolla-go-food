@@ -19,3 +19,7 @@
 <% else %>
   <%= link_to 'Back', store_index_path %>
 <% end %>
+<div>
+  <%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{@restaurant.latitude},#{@restaurant.longitude}&markers=#{@restaurant.latitude},#{@restaurant.longitude}&zoom=15&size=640x400",
+              class: 'img-fluid img-rounded', alt: "#{@restaurant.name} on the map"%>
+</div>

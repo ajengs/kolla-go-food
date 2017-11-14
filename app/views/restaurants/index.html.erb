@@ -15,6 +15,8 @@
           <dd><%= truncate(strip_tags(restaurant.address), length:80) %></dd>
         </dl>
       </td>
+      <td><%= restaurant.latitude %></td>
+      <td><%= restaurant.longitude %></td>
       <td class="list_actions">
         <%= link_to 'Show', restaurant %>
         <%= link_to 'Edit', edit_restaurant_path(restaurant) %>

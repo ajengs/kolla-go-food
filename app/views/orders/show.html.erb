@@ -21,6 +21,16 @@
   </tr>
 
   <tr>
+    <th>Distance:</strong></th>
+    <td><%= @order.calculate_distance %> km</td>
+  </tr>
+
+  <tr>
+    <th>Delivery Cost:</strong></th>
+    <td><%= @order.delivery_cost %></td>
+  </tr>
+
+  <tr>
     <th>Payment Type:</strong></th>
     <td><%= @order.payment_type %></td>
   </tr>

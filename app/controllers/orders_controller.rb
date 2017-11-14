@@ -28,7 +28,8 @@ class OrdersController < ApplicationController
     @order.add_line_items(@cart)
     @order.voucher = Voucher.find_by(code: order_params[:voucher_code].upcase)
     @order.user = User.find(session[:user_id])
-    @order.total_price = @order.set_total_price
+    # @order.delivery_cost = @order.calculate_delivery_cost
+    # @order.total_price = @order.set_total_price
 
     respond_to do |format|
       if @order.save

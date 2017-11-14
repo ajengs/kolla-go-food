@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114045242) do
+ActiveRecord::Schema.define(version: 20171114101747) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id"
@@ -80,6 +80,9 @@ ActiveRecord::Schema.define(version: 20171114045242) do
     t.integer "voucher_id"
     t.integer "total_price"
     t.integer "user_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.float "delivery_cost"
     t.index ["user_id"], name: "index_orders_on_user_id"
     t.index ["voucher_id"], name: "index_orders_on_voucher_id"
   end
@@ -89,6 +92,8 @@ ActiveRecord::Schema.define(version: 20171114045242) do
     t.text "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "reviews", force: :cascade do |t|
