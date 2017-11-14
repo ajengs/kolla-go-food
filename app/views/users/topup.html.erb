@@ -14,7 +14,6 @@
   <fieldset>
     <legend>TopUp Go Pay</legend>
     <div class="field">
-      <%= label :topup_gopay, 'Topup Gopay' %>
       <%= text_field_tag :topup_gopay, params[:topup_gopay] %>
     </div>
 
@@ -23,7 +22,7 @@
     </div>
 
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit "Top up" %>
     </div>
   </fieldset>
 <% end %>
