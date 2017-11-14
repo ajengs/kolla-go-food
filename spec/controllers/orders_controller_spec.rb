@@ -91,14 +91,24 @@ describe OrdersController do
         @line_item = create(:line_item, cart: @cart)
       end
 
-      it 'assigns a new Order to @order' do
-        get :new
-        expect(assigns(:order)).to be_a_new(Order)
+      context 'with user logged in' do
+        it 'assigns a new Order to @order' do
+          get :new
+          expect(assigns(:order)).to be_a_new(Order)
+        end
+
+        it 'renders the :new template' do
+          get :new
+          expect(response).to render_template(:new)
+        end
       end
 
-      it 'renders the :new template' do
-        get :new
-        expect(response).to render_template(:new)
+      context 'with user not logged in' do
+        it 'redirects to login page' do
+          session[:user_id] = nil
+          get :new
+          expect(response).to redirect_to(login_url)
+        end
       end
     end
 

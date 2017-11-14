@@ -73,7 +73,7 @@ describe Order do
     line_item1 = create(:line_item, food: food1, order: order, quantity: 2)
     food2 = create(:food, price: 10000)
     line_item2 = create(:line_item, food: food2, order: order)
-    order.total_price = order.set_total_price
+    order.total_price = order.total_price_before_discount
     expect(order.total_price).to eq(20000)
   end
 
@@ -92,20 +92,18 @@ describe Order do
       end
 
       it 'returns total price after discount' do
-        expect(@order.total_after_discount).to eq(80000)
+        expect(@order.total_price).to eq(80000)
       end
 
       it 'returns zero if total_price < discount' do
         @voucher.amount = 120000
-        expect(@order.total_after_discount).to eq(0)
+        expect(@order.set_total_price).to eq(0)
       end
     end
   
 
     context 'with invalid voucher' do
       it 'is not saved if voucher is not found' do
-        # expect{ create(:order, voucher_code: 'nodisc') }.to raise_error(ActiveRecord::RecordInvalid)
-        
         order = build(:order, voucher_code: 'nodisc')
         order.valid?
         expect(order.errors[:voucher_id]).to include("not found")
@@ -113,9 +111,6 @@ describe Order do
 
       it 'is not saved if voucher is no valid yet' do
         voucher = create(:voucher, valid_from: 2.days.from_now)
-        # expect{
-        #   create(:order, voucher: voucher) 
-        # }.to raise_error(ActiveRecord::RecordInvalid)
         order = build(:order, voucher: voucher)
         order.valid?
         expect(order.errors[:voucher_id]).to include("no longer valid")

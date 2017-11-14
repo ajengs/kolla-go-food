@@ -28,16 +28,16 @@ class Order < ApplicationRecord
     end
   end
 
-  def set_total_price
+  def total_price_before_discount
     line_items.reduce(0) { |sum, i| sum + i.total_price }
   end
 
   def discount
-    voucher.discount(total_price)
+    voucher.discount(total_price_before_discount)
   end
 
-  def total_after_discount
-    total = total_price - discount
+  def set_total_price
+    total = voucher.nil? ? total_price_before_discount : total_price_before_discount - discount
     total < 0 ? 0 : total
   end
 
