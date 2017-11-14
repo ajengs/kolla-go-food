@@ -176,10 +176,10 @@ describe OrdersController do
         }.to change{ ActionMailer::Base.deliveries.count }.by(1)
       end
 
-      # it 'redirects to store index page' do
-      #   post :create, params: { order: attributes_for(:order) }
-      #   expect(response).to redirect_to(store_index_path)
-      # end
+      it 'saves user_id from session' do
+        post :create, params: { order: attributes_for(:order) }
+        expect(assigns(:order).user.id).to eq(session[:user_id])
+      end
 
       it 'redirects to order if logged in' do
         post :create, params: { order: attributes_for(:order) }
