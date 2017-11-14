@@ -4,7 +4,7 @@ FactoryGirl.define do
     address {Faker::Address.street_address }
     email { Faker::Internet.email }
     payment_type "Cash"
-    voucher_code ''
+    voucher_code nil
     association :voucher
     association :user
   end

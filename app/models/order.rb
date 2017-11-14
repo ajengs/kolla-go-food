@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
   belongs_to :voucher, optional: true
   belongs_to :user
-  
+
   enum payment_type: {
     "Cash" => 0,
     "Go Pay" => 1,
@@ -19,6 +19,8 @@ class Order < ApplicationRecord
   
   validate :ensure_voucher_exists
   validate :voucher_valid_date
+  validate :ensure_credit_sufficient_if_use_gopay
+  before_save :substracts_credit_if_use_gopay
 
   scope :grouped_by_date, -> { group_by_day(:created_at).count }
   scope :grouped_by_total_price_per_date, -> { group("strftime('%Y-%m-%d', orders.created_at)").sum(:total_price) }
@@ -56,9 +58,9 @@ class Order < ApplicationRecord
 
   private
     def ensure_voucher_exists
-      if !voucher_code.empty?
-          voucher = Voucher.find_by(code: voucher_code.upcase)
-        if voucher.nil?
+      if !voucher_code.nil?
+        voucher = Voucher.find_by(code: voucher_code.upcase) if !voucher_code.empty?
+        if voucher.nil? && !voucher_code.empty?
           errors.add(:voucher_id, "not found")
         end
       end
@@ -67,6 +69,21 @@ class Order < ApplicationRecord
     def voucher_valid_date
       if !voucher.nil? && (voucher.valid_from > Date.today || voucher.valid_through < Date.today)
         errors.add(:voucher_id, "no longer valid")
+      end
+    end
+
+    def ensure_credit_sufficient_if_use_gopay
+      if payment_type == 'Go Pay'
+        if user.gopay < total_price
+          errors.add(:payment_type, ': insufficient Go Pay credit')
+        end
+      end
+    end
+
+    def substracts_credit_if_use_gopay
+      if payment_type == 'Go Pay'
+        user.gopay -= total_price
+        user.save
       end
     end
 end

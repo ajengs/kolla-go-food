@@ -130,14 +130,15 @@ describe Order do
   end
 
   describe 'paying with gopay' do
-    
-
     context "with sufficient gopay credit" do
       before :each do
+        @cart = create(:cart)
         @user = create(:user, gopay: 100000)
-        @order = build(:order, user: @user, payment_type: 'Go Pay')
         @food1 = create(:food, price: 50000)
-        @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+        @line_item1 = create(:line_item, food: @food1, cart: @cart, quantity: 2)
+        @order = build(:order, payment_type: 'Go Pay', voucher: nil)
+        @order.user = @user
+        @order.add_line_items(@cart)
         @order.total_price = @order.set_total_price
       end 
 
@@ -146,22 +147,26 @@ describe Order do
       end
 
       it 'substracts user gopay credit with total_price' do
-        expect(@order.user.gopay).to eq(0)
+        @order.save
+        expect(@user.gopay).to eq(0)
       end
     end
 
     context 'with insufficient gopay credit' do
       before :each do
+        @cart = create(:cart)
         @user = create(:user, gopay: 10000)
-        @order = build(:order, user: @user, payment_type: 'Go Pay')
         @food1 = create(:food, price: 50000)
-        @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
+        @line_item1 = create(:line_item, food: @food1, cart: @cart, quantity: 2)
+        @order = build(:order, payment_type: 'Go Pay', voucher: nil)
+        @order.user = @user
+        @order.add_line_items(@cart)
         @order.total_price = @order.set_total_price
       end 
 
       it 'is invalid with insufficient gopay credit' do
         @order.valid?
-        expect(@order.errors[:payment_type]).to include("insufficient gopay credit")
+        expect(@order.errors[:payment_type]).to include(": insufficient Go Pay credit")
       end
 
       it 'does not substracts user gopay' do
