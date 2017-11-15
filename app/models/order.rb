@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   }
   # geocoded_by :address
   # before_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+  before_validation :set_calculated_attributes
 
   validates :name, :address, :email, :payment_type, presence: true
   validates :email, format: {
@@ -26,7 +27,6 @@ class Order < ApplicationRecord
   # validate :found_address_presence
   # validate :distance_must_be_less_than_or_equal_to_max_dist
   
-  after_validation :set_calculated_attributes
   before_save :substracts_credit_if_using_gopay
 
   scope :grouped_by_date, -> { group_by_day(:created_at).count }
@@ -38,6 +38,17 @@ class Order < ApplicationRecord
 
   def max_dist
     25
+  end
+
+  def self.search_by(params)
+    @orders = Order.where('name LIKE :name AND address LIKE :address AND email LIKE :email',
+      { name: "%#{params[:name]}%", 
+        address: "%#{params[:address]}%", 
+        email: "%#{params[:email]}%" })
+    @orders = @orders.where(payment_type: params[:payment_type]) if params[:payment_type].present?
+    @orders = @orders.where("total_price >= :min_total_price", { min_total_price: params[:min_total_price] }) if params[:min_total_price].present?
+    @orders = @orders.where("total_price <= :max_total_price", { max_total_price: params[:max_total_price] }) if params[:max_total_price].present?
+    @orders
   end
 
   def add_line_items(cart)
@@ -60,21 +71,10 @@ class Order < ApplicationRecord
     total < 0 ? 0 : total
   end
 
-  def self.search_by(params)
-    @orders = Order.where('name LIKE :name AND address LIKE :address AND email LIKE :email',
-      { name: "%#{params[:name]}%", 
-        address: "%#{params[:address]}%", 
-        email: "%#{params[:email]}%" })
-    @orders = @orders.where(payment_type: params[:payment_type]) if params[:payment_type].present?
-    @orders = @orders.where("total_price >= :min_total_price", { min_total_price: params[:min_total_price] }) if params[:min_total_price].present?
-    @orders = @orders.where("total_price <= :max_total_price", { max_total_price: params[:max_total_price] }) if params[:max_total_price].present?
-    @orders
-  end
-
   def calculate_distance
     dist = 0
     if !latitude.blank?
-      dist = distance_from(line_items.first.food.restaurant.to_coordinates).round(2)
+      dist = self.distance_from(line_items.first.food.restaurant.to_coordinates).round(2)
     end
     dist
   end

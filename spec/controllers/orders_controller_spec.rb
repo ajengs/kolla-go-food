@@ -31,13 +31,11 @@ describe OrdersController do
         @line_item1 = create(:line_item, food: @food1, quantity: 1, cart: @cart1)
         @order1 = build(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
         @order1.add_line_items(@cart1)
-        # @order1.total_price = @order1.calculate_total_price
         @order1.save
 
         @line_item2 = create(:line_item, food: @food1, quantity: 3, cart: @cart2)
         @order2 = build(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
         @order2.add_line_items(@cart2)
-        # @order2.total_price = @order2.calculate_total_price
         @order2.save
       end
 
