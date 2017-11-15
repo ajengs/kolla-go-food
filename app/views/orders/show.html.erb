@@ -27,7 +27,12 @@
 
   <tr>
     <th>Delivery Cost:</strong></th>
-    <td><%= @order.delivery_cost %></td>
+    <td><%= number_to_currency(@order.delivery_cost, unit: 'Rp ', delimiter: '.', separator: ',') %></td>
+  </tr>
+
+  <tr>
+    <th>Total Price:</strong></th>
+    <td><%= number_to_currency(@order.total_price, unit: "Rp ", delimiter: ".", separator: ",") %></td>
   </tr>
 
   <tr>
@@ -35,10 +40,6 @@
     <td><%= @order.payment_type %></td>
   </tr>
 
-  <tr>
-    <th>Total Price:</strong></th>
-    <td><%= number_to_currency(@order.total_price, unit: "Rp ", delimiter: ".", separator: ",") %></td>
-  </tr>
   <% if @order.voucher %>
     <tr>
       <th>Voucher:</strong></th>
