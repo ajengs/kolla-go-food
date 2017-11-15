@@ -7,8 +7,9 @@ RSpec.describe Cart, type: :model do
 
   it 'deletes line_items when deleted' do
     cart = create(:cart)
-    food1 = create(:food)
-    food2 = create(:food)
+    restaurant = create(:restaurant)
+    food1 = create(:food, restaurant: restaurant)
+    food2 = create(:food, restaurant: restaurant)
 
     line_item1 = create(:line_item, cart: cart, food: food1)
     line_item2 = create(:line_item, cart: cart, food: food2)
@@ -37,9 +38,10 @@ RSpec.describe Cart, type: :model do
 
   it 'can return total of subtotal price from all line items' do
     cart = create(:cart)
-    food1 = create(:food, price: 5000)
+    restaurant = create(:restaurant)
+    food1 = create(:food, price: 5000, restaurant: restaurant)
     line_item1 = create(:line_item, food: food1, cart: cart, quantity: 2)
-    food2 = create(:food, price: 10000)
+    food2 = create(:food, price: 10000, restaurant: restaurant)
     line_item2 = create(:line_item, food: food2, cart: cart)
 
     expect(cart.total_price).to eq(20000)

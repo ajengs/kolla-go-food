@@ -25,15 +25,19 @@ describe OrdersController do
     
     context 'with searching parameters' do
       before :each do
+        @cart1 = create(:cart)
+        @cart2= create(:cart)
         @food1 = create(:food, price: 25000)
-        @order1 = create(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
-        @line_item1 = create(:line_item, food: @food1, quantity: 1, order: @order1)
-        @order1.total_price = @order1.set_total_price
+        @line_item1 = create(:line_item, food: @food1, quantity: 1, cart: @cart1)
+        @order1 = build(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
+        @order1.add_line_items(@cart1)
+        # @order1.total_price = @order1.calculate_total_price
         @order1.save
 
-        @order2 = create(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
-        @line_item2 = create(:line_item, food: @food1, quantity: 3, order: @order2)
-        @order2.total_price = @order2.set_total_price
+        @line_item2 = create(:line_item, food: @food1, quantity: 3, cart: @cart2)
+        @order2 = build(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
+        @order2.add_line_items(@cart2)
+        # @order2.total_price = @order2.calculate_total_price
         @order2.save
       end
 

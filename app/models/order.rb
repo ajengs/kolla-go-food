@@ -9,8 +9,8 @@ class Order < ApplicationRecord
     "Go Pay" => 1,
     "Credit Card" => 2
   }
-  geocoded_by :address
-  before_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+  # geocoded_by :address
+  # before_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
   validates :name, :address, :email, :payment_type, presence: true
   validates :email, format: {
@@ -23,10 +23,10 @@ class Order < ApplicationRecord
   validate :voucher_valid_date
   validate :ensure_credit_sufficient_if_using_gopay
 
-  validate :found_address_presence
-  validate :distance_must_be_less_than_or_equal_to_max_dist
+  # validate :found_address_presence
+  # validate :distance_must_be_less_than_or_equal_to_max_dist
   
-  after_validation :set_calculation_attributes
+  after_validation :set_calculated_attributes
   before_save :substracts_credit_if_using_gopay
 
   scope :grouped_by_date, -> { group_by_day(:created_at).count }
@@ -80,7 +80,9 @@ class Order < ApplicationRecord
   end
 
   def calculate_delivery_cost
-    (cost_per_km * calculate_distance).round
+    cost = 0
+    cost = (cost_per_km * calculate_distance).round if !latitude.blank? && !longitude.blank?
+    cost
   end
 
   private
@@ -114,8 +116,8 @@ class Order < ApplicationRecord
       end
     end
 
-    def set_calculation_attributes
-      self.delivery_cost = calculate_delivery_cost
+    def set_calculated_attributes
+      # self.delivery_cost = calculate_delivery_cost
       self.total_price = calculate_total_price
     end
 

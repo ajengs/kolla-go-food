@@ -5,7 +5,6 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-require 'google_maps_service'
 
 module GoFood
   class Application < Rails::Application
@@ -25,12 +24,6 @@ module GoFood
         controller_specs: true,
         request_specs: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
-    end
-    # Setup global parameters
-    GoogleMapsService.configure do |config|
-      config.key = 'AIzaSyAXdvbVNcN7Ziln_NuJiwkx-HH5P9wA4-M'
-      config.retry_timeout = 20
-      config.queries_per_second = 10
     end
   end
 end

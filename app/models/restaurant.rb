@@ -8,8 +8,8 @@ class Restaurant < ApplicationRecord
   scope :grouped_by_order, -> { joins(foods: { line_items: :order }).group("restaurants.name").count }
   scope :grouped_by_total_price, -> { joins(foods: { line_items: :order }).group("restaurants.name").sum("orders.total_price") }
   
-  geocoded_by :address
-  after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+  # geocoded_by :address
+  # after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
   def self.search_by(params)
     @restaurants = Restaurant.where('restaurants.name LIKE :name AND restaurants.address LIKE :address',

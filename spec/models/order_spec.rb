@@ -67,13 +67,15 @@ describe Order do
 
 
   it 'saves total of subtotal price from all line items' do
-
-    order = create(:order)
-    food1 = create(:food, price: 5000)
-    line_item1 = create(:line_item, food: food1, order: order, quantity: 2)
-    food2 = create(:food, price: 10000)
-    line_item2 = create(:line_item, food: food2, order: order)
-    order.total_price = order.total_price_before_discount
+    cart = create(:cart)
+    restaurant = create(:restaurant)
+    food1 = create(:food, price: 5000, restaurant: restaurant)
+    line_item1 = create(:line_item, food: food1, cart: cart, quantity: 2)
+    food2 = create(:food, price: 10000, restaurant: restaurant)
+    line_item2 = create(:line_item, food: food2, cart: cart)
+    order = build(:order, voucher: nil)
+    order.add_line_items(cart)
+    order.save
     expect(order.total_price).to eq(20000)
   end
 
@@ -81,10 +83,13 @@ describe Order do
     context 'with valid voucher' do
       before :each do
         @voucher = create(:voucher, amount: 20000, unit: 'rupiah', max_amount: 120000)
-        @order = create(:order, voucher: @voucher)
         @food1 = create(:food, price: 50000)
-        @line_item1 = create(:line_item, food: @food1, order: @order, quantity: 2)
-        @order.total_price = @order.set_total_price
+        @cart = create(:cart)
+        @line_item1 = create(:line_item, food: @food1, cart: @cart, quantity: 2)
+        @order = build(:order, voucher: @voucher)
+        @order.add_line_items(@cart)
+        # @order.total_price = @order.total_price_before_discount
+        @order.save
       end    
 
       it 'returns the amount of discount' do
@@ -97,7 +102,7 @@ describe Order do
 
       it 'returns zero if total_price < discount' do
         @voucher.amount = 120000
-        expect(@order.set_total_price).to eq(0)
+        expect(@order.calculate_total_price).to eq(0)
       end
     end
   
@@ -139,7 +144,7 @@ describe Order do
         @order = build(:order, payment_type: 'Go Pay', voucher: nil)
         @order.user = @user
         @order.add_line_items(@cart)
-        @order.total_price = @order.set_total_price
+        @order.total_price = @order.calculate_total_price
       end 
 
       it 'is valid with sufficient gopay credit' do
@@ -161,7 +166,7 @@ describe Order do
         @order = build(:order, payment_type: 'Go Pay', voucher: nil)
         @order.user = @user
         @order.add_line_items(@cart)
-        @order.total_price = @order.set_total_price
+        @order.total_price = @order.calculate_total_price
       end 
 
       it 'is invalid with insufficient gopay credit' do
