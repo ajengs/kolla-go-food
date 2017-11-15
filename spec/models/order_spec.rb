@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 describe Order do
+  # before :each do
+  #   @restaurant = create(:restaurant, address: 'kolla space sabang')
+  #   @cart = create(:cart)
+  #   @food1 = create(:food, restaurant: @restaurant, price: 10000)
+  #   @line_item1 = create(:line_item, food: @food1, cart: @cart, quantity: 2)
+  #   @order = build(:order)
+  #   @order.add_line_items(@cart)
+  # end
+
   it 'has a valid factory' do
     expect(build(:order)).to be_valid
   end
@@ -15,7 +24,7 @@ describe Order do
     expect(order.errors[:name]).to include("can't be blank")
   end
 
-  it 'is ivalid without an address' do
+  it 'is invalid without an address' do
     order = build(:order, address: nil)
     order.valid?
     expect(order.errors[:address]).to include("can't be blank")
@@ -50,11 +59,10 @@ describe Order do
       @order = build(:order)
     end
 
-    it 'adds line_items to order' do    
-      expect{
-        @order.add_line_items(@cart)
-        @order.save
-      }.to change(@order.line_items, :count).by(1)
+    it 'adds line_items to order' do 
+      @order.add_line_items(@cart)
+      @order.save
+      expect(@order.line_items.first).to eq(@line_item)
     end
 
     it 'removes line_items from cart' do
@@ -64,7 +72,6 @@ describe Order do
       }.to change(@cart.line_items, :count).by(-1)
     end
   end
-
 
   it 'saves total of subtotal price from all line items' do
     cart = create(:cart)
@@ -76,7 +83,7 @@ describe Order do
     order = build(:order, voucher: nil)
     order.add_line_items(cart)
     order.save
-    expect(order.total_price).to eq(20000)
+    expect(order.total_price).to eq(20000 + order.delivery_cost)
   end
 
   describe 'adding discount voucher' do
@@ -97,7 +104,7 @@ describe Order do
       end
 
       it 'returns total price after discount' do
-        expect(@order.total_price).to eq(80000)
+        expect(@order.total_price).to eq(80000 + @order.delivery_cost)
       end
 
       it 'returns zero if total_price < discount' do
@@ -106,7 +113,6 @@ describe Order do
       end
     end
   
-
     context 'with invalid voucher' do
       it 'is not saved if voucher is not found' do
         order = build(:order, voucher_code: 'nodisc')
@@ -138,13 +144,12 @@ describe Order do
     context "with sufficient gopay credit" do
       before :each do
         @cart = create(:cart)
-        @user = create(:user, gopay: 100000)
+        @user = create(:user, gopay: 150000)
         @food1 = create(:food, price: 50000)
         @line_item1 = create(:line_item, food: @food1, cart: @cart, quantity: 2)
         @order = build(:order, payment_type: 'Go Pay', voucher: nil)
         @order.user = @user
         @order.add_line_items(@cart)
-        @order.total_price = @order.calculate_total_price
       end 
 
       it 'is valid with sufficient gopay credit' do
@@ -153,7 +158,7 @@ describe Order do
 
       it 'substracts user gopay credit with total_price' do
         @order.save
-        expect(@user.gopay).to eq(0)
+        expect(@user.gopay).to eq(150000 - @order.total_price)
       end
     end
 
@@ -176,6 +181,54 @@ describe Order do
 
       it 'does not substracts user gopay' do
         expect(@order.user.gopay).not_to eq(0)
+      end
+    end
+  end
+
+  describe 'calculating delivery cost' do
+    before :each do
+      @cart = create(:cart)
+      @restaurant = create(:restaurant, address: 'kolla space sabang')
+      @food1 = create(:food, restaurant: @restaurant, price: 10000)
+      @line_item1 = create(:line_item, food: @food1, cart: @cart, quantity: 2)
+      @order = build(:order, voucher: nil, address: 'pasaraya blok m')
+      @order.add_line_items(@cart)
+    end 
+
+    context 'with address lat-long found' do
+      it 'saves latitude/ longitude if address found' do
+        @order.save
+        expect(@order.latitude).not_to eq(nil)
+      end
+
+      it 'calculates distance order address and restaurant address' do
+        @order.save
+        expect(@order.calculate_distance).to be > 0
+      end
+
+      it 'populates delivery cost order address from restaurant address' do
+        @order.save
+        expect(@order.delivery_cost).to be > 0
+      end
+
+      it 'populates total price from delivery cost + line items total price' do
+        @order.save
+        expect(@order.total_price).to eq(@order.delivery_cost + 20000)
+      end
+
+      it 'is invalid if distance > 25 km from restaurant' do
+        order = build(:order, address: 'new york')
+        order.add_line_items(@cart)
+        order.valid?
+        expect(order.errors[:address]).to include("must not be more than 25 km away from restaurant")
+      end
+    end
+
+    context 'with address lat-long not found' do
+      it 'is invalid if lat-long not found' do
+        order = build(:order, address: nil)
+        order.valid?
+        expect(order.errors[:address]).to include("not found")
       end
     end
   end

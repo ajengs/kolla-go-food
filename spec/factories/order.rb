@@ -9,6 +9,9 @@ FactoryGirl.define do
     association :user
     # latitude -6.243758
     # longitude 106.800689
+    # after(:build) do |order|
+    #   FactoryGirl.create_list(:line_item, order: order)
+    # end
   end
 
   factory :invalid_order, parent: :order do

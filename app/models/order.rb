@@ -9,8 +9,8 @@ class Order < ApplicationRecord
     "Go Pay" => 1,
     "Credit Card" => 2
   }
-  # geocoded_by :address
-  # before_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+  geocoded_by :address
+  before_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
   before_validation :set_calculated_attributes
 
   validates :name, :address, :email, :payment_type, presence: true
@@ -24,8 +24,8 @@ class Order < ApplicationRecord
   validate :voucher_valid_date
   validate :ensure_credit_sufficient_if_using_gopay
 
-  # validate :found_address_presence
-  # validate :distance_must_be_less_than_or_equal_to_max_dist
+  validate :ensure_address_latlong_found
+  validate :distance_must_be_less_than_or_equal_to_max_dist
   
   before_save :substracts_credit_if_using_gopay
 
@@ -73,7 +73,7 @@ class Order < ApplicationRecord
 
   def calculate_distance
     dist = 0
-    if !latitude.blank?
+    if geocoder_attributes_exist?
       dist = self.distance_from(line_items.first.food.restaurant.to_coordinates).round(2)
     end
     dist
@@ -81,7 +81,7 @@ class Order < ApplicationRecord
 
   def calculate_delivery_cost
     cost = 0
-    cost = (cost_per_km * calculate_distance).round if !latitude.blank? && !longitude.blank?
+    cost = (cost_per_km * calculate_distance).round
     cost
   end
 
@@ -117,11 +117,11 @@ class Order < ApplicationRecord
     end
 
     def set_calculated_attributes
-      # self.delivery_cost = calculate_delivery_cost
+      self.delivery_cost = calculate_delivery_cost
       self.total_price = calculate_total_price
     end
 
-    def found_address_presence
+    def ensure_address_latlong_found
       if latitude.blank? || longitude.blank?
         errors.add(:address, "not found")
       end
@@ -131,5 +131,9 @@ class Order < ApplicationRecord
       if calculate_distance > max_dist
         errors.add(:address, "must not be more than #{max_dist} km away from restaurant")
       end
+    end
+
+    def geocoder_attributes_exist?
+      !latitude.blank? && !longitude.blank? && !line_items.first.nil?
     end
 end
