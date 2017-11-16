@@ -10,9 +10,17 @@
       </ul>
     </div>
   <% end %>
-
+<h1>TopUp Go Pay</h1>
+<div>
+  <strong>Username:</strong>
+  <%= @user.username %>
+</div>
+<div>
+  <strong>Gopay Credit:</strong>
+  <%= @user.gopay %>
+</div>
   <fieldset>
-    <legend>TopUp Go Pay</legend>
+    <legend></legend>
     <div class="field">
       <%= text_field_tag :topup_gopay, params[:topup_gopay] %>
     </div>
@@ -26,3 +34,5 @@
     </div>
   </fieldset>
 <% end %>
+
+<%= link_to 'Back', users_path %>

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :create
   validates :password, length: { minimum: 8 }, allow_blank: true
   validates :gopay, numericality: { greater_than: 0 }
+  validates :roles, presence: true
 
 
   def topup(amount)

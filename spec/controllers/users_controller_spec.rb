@@ -63,13 +63,15 @@ describe UsersController do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new user in the database' do
+        role = create(:role)
         expect {
-          post :create, params: { user: attributes_for(:user) }
+          post :create, params: { user: attributes_for(:user, role_ids: [role]) }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to user#index' do
-        post :create, params: { user: attributes_for(:user) }
+        role = create(:role)
+        post :create, params: { user: attributes_for(:user, role_ids: [role]) }
         expect(response).to redirect_to(users_path)
       end
     end

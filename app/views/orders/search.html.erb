@@ -1,36 +1,45 @@
 <div class="search go_order_form">
   <%= form_tag("/orders", method: "get") do %>
-    <div class="field">
-      <%= label_tag(:order_name, "Name:") %>
-      <%= search_field_tag('order[name]', (params[:order][:name] unless params[:order].nil?)) %>
-    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="field form-group">
+          <%= label_tag(:order_name, "Name:") %>
+          <%= search_field_tag('order[name]', (params[:order][:name] unless params[:order].nil?)) %>
+        </div>
 
-    <div class="field">
-      <%= label_tag(:order_email, "Email:") %>
-      <%= search_field_tag('order[email]', (params[:order][:email] unless params[:order].nil?)) %>
-    </div>
+        <div class="field">
+          <%= label_tag(:order_email, "Email:") %>
+          <%= search_field_tag('order[email]', (params[:order][:email] unless params[:order].nil?)) %>
+        </div>
 
-    <div class="field">
-      <%= label_tag(:order_address, "Address:") %>
-      <%= search_field_tag('order[address]', params[:order].try(:[],:address), class: 'text_area') %>
-    </div>
+        <div class="field">
+          <%= label_tag(:order_address, "Address:") %>
+          <%= search_field_tag('order[address]', params[:order].try(:[],:address), class: 'text_area') %>
+        </div>
+      </div>
 
-    <div class="field">
-      <%= select :order, :payment_type, Order.payment_types, prompt: 'Select a payment type' %>
-    </div>
+      <div class="col-md-6">
+        <div class="field">
+          <%= label_tag(:order_payment_type, "Select a payment type:") %>
+          <%= select :order, :payment_type, Order.payment_types, prompt: '' %>
+        </div>
 
-    <div class="field">
-      <%= label_tag(:order_min_total_price, "Minimum Total Price:") %>
-      <%= search_field_tag('order[min_total_price]', params[:order].try(:[],:min_total_price)) %>
-    </div>
+        <div class="field">
+          <%= label_tag(:order_min_total_price, "Minimum Total Price:") %>
+          <%= search_field_tag('order[min_total_price]', params[:order].try(:[],:min_total_price)) %>
+        </div>
 
-    <div class="field">
-      <%= label_tag(:order_max_total_price, "Maximum Total Price:") %>
-      <%= search_field_tag('order[max_total_price]', params[:order].try(:[],:max_total_price)) %>
-    </div>
+        <div class="field">
+          <%= label_tag(:order_max_total_price, "Maximum Total Price:") %>
+          <%= search_field_tag('order[max_total_price]', params[:order].try(:[],:max_total_price)) %>
+        </div>
+      </div>
 
-    <div class="actions">
-      <%= submit_tag("Search", name: nil) %>
+      <div class="col-md-6">
+        <div class="actions">
+          <%= submit_tag("Search", name: nil) %>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
