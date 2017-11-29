@@ -113,6 +113,7 @@ Buyer.create!(
   ]
 )
 
+
 Role.create!(
   [
     { name: 'administrator' },
