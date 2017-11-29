@@ -31,6 +31,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.7)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (5.1.4)
       activesupport (= 5.1.4)
       globalid (>= 0.3.6)
@@ -59,7 +64,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-
+    case_transform (0.2)
+      activesupport
     chartkick (2.2.5)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
@@ -88,7 +94,6 @@ GEM
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
-
     groupdate (3.2.0)
       activesupport (>= 3)
     htmlentities (4.3.4)
@@ -103,6 +108,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
+    jsonapi-renderer (0.2.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.19)
@@ -241,17 +247,16 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   bcrypt (~> 3.1.7)
   byebug
   capybara
-
   chartkick
   coffee-rails (~> 4.2)
   database_cleaner (~> 1.3.0)
   email_spec
   factory_girl_rails (~> 4.4.1)
   faker!
-
   groupdate
   jbuilder (~> 2.5)
   jquery-rails
@@ -275,6 +280,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-
    1.16.0
-
