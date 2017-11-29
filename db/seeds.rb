@@ -18,15 +18,15 @@ Restaurant.create!(
   [
     {
       name: 'Richeese Company',
-      address: 'Jl Pemda Cibinong'
+      address: 'Kolla Space Sabang'
     },
     {
       name: 'RFC',
-      address: 'Jl dimana-mana'
+      address: 'Kolla Space Sabang'
     },
     {
       name: 'Outfront',
-      address: 'Jl Pemda Cibinong'
+      address: 'Grand Indonesia'
     }
   ]
 )
@@ -113,6 +113,13 @@ Buyer.create!(
   ]
 )
 
+Role.create!(
+  [
+    { name: 'administrator' },
+    { name: 'customer' }
+  ]
+) 
+
 User.delete_all
 
 User.create!(
@@ -120,14 +127,8 @@ User.create!(
     {
       username: 'ajeng',
       password: '12345678',
-      password_confirmation: '12345678'
+      password_confirmation: '12345678',
+      role_ids: [1]
     }
   ]
 )
-
-Role.create!(
-  [
-    { name: 'administrator' },
-    { name: 'customer' }
-  ]
-) 
