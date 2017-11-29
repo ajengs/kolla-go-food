@@ -20,8 +20,15 @@ Rails.application.routes.draw do
   end
   resources :reviews
   resources :tags
-  resources :users
+  resources :users do
+    member do
+      get 'topup'
+      patch 'topup' => :save_topup
+    end
+  end
+
   resources :vouchers
+
   root 'store#index', as: 'store_index'
   get 'home/hello'
   get 'home/goodbye'

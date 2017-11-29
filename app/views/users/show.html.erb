@@ -1,9 +1,18 @@
-<p id="notice"><%= notice %></p>
-
-<p>
+<div id="notice"><%= notice %></div>
+<h1>User Detail</h1>
+<div>
   <strong>Username:</strong>
   <%= @user.username %>
-</p>
+</div>
+<div>
+  <strong>Gopay Credit:</strong>
+  <%= number_to_currency(@user.gopay, unit: 'Rp. ', delimiter: '.', separator: ',') %>
+</div>
+<div>
+  <strong>Roles:</strong>
+  <%= @user.roles.map { |r| r.name }.join(", ") %>
+</div>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> | 
 <%= link_to 'Back', users_path %>

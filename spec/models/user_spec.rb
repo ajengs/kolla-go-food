@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Order do
+describe User do
   it 'has a valid factory' do
     expect(build(:user)).to be_valid
   end
@@ -62,6 +62,53 @@ describe Order do
       @user.password = 'newlongpassword'
       @user.password_confirmation = 'newlongpassword'
       expect(@user.valid?).to eq(true)
+    end
+  end
+
+  describe "relations" do
+    it { should have_many(:roles).through(:assignments) }
+    it { should have_many(:orders) }
+  end
+
+  describe 'adding gopay amount' do
+    it "save default go pay credit when user created" do
+      user = create(:user)
+      expect(user.gopay).to eq(200000) 
+    end
+
+    it 'is invalid with non numeric gopay' do
+      user = create(:user)
+      user.gopay = '1ooo'
+      user.valid?
+      expect(user.errors[:gopay]).to include('is not a number')
+    end
+
+    it 'is invalid with gopay amount entry < 0' do
+      user = create(:user)
+      user.gopay = -100
+      user.valid?
+      expect(user.errors[:gopay]).to include('must be greater than 0')
+    end
+
+    it 'updates gopay amount with valid topup gopay' do
+      user = create(:user, gopay: 200000)
+      topup_gopay = 100000
+      user.topup(topup_gopay)
+      expect(user.gopay).to eq(300000)
+    end
+
+    it 'is invalid with non numeric topup_gopay ' do
+      user = create(:user)
+      topup_gopay = "1ooo"
+      user.topup(topup_gopay)
+      expect(user.errors[:gopay]).to include("is not a number")
+    end
+
+    it 'is invalid with topup_gopay amount entry < 0' do
+      user = create(:user)
+      topup_gopay = -20000
+      user.topup(topup_gopay)
+      expect(user.errors[:gopay]).to include('must be greater than 0')
     end
   end
 end

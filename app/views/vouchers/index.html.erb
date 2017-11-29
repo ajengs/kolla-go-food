@@ -2,30 +2,24 @@
 
 <h1>Vouchers</h1>
 
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Discount</th>
-    <th>Periode</th>
-    <th>Max Amount</th>
-    <th></th>
-  </tr>
+<table class='table-striped'>
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Discount</th>
+      <th>Unit</th>
+      <th>Periode</th>
+      <th>Max Amount</th>
+      <th></th>
+    </tr>
+  </thead>
   <% @vouchers.each do |voucher| %>
     <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
       <td><%= voucher.code %></td>
-      <td>
-        <dl>
-          <dd><%= voucher.amount %></dd>
-          <dd><%= voucher.unit %></dd>
-        </dl>
-      </td>
-      <td>
-        <dl>
-          <dd><%= voucher.valid_from %></dd>
-          <dd><%= voucher.valid_through %></dd>
-        </dl>
-      </td>
-      <td><%= voucher.max_amount %></td>
+      <td><%= voucher.amount %></td>
+      <td><%= voucher.unit %></td>
+      <td><%= voucher.valid_from %> ~ <%= voucher.valid_through %></td>
+      <td><%= number_to_currency(voucher.max_amount, unit: 'Rp. ', delimiter: '.', separator: ',') %></td>
       <td class="list_actions">
         <%= link_to 'Show', voucher %>
         <%= link_to 'Edit', edit_voucher_path(voucher) %>

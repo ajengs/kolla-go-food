@@ -68,7 +68,7 @@ div {
   h2 {
     text-align: left;
     font-weight: bold;
-    padding: 5px 5px 5px 15px;
+    padding: 5px 5px 5px 15px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     font-size: 12px;
     margin: -7px -7px 0;
     background-color: #c00;
@@ -83,8 +83,4 @@ div {
 
 label {
   display: block;
-}
-
-.foods, .buyers {
-  @extend .style;
 }

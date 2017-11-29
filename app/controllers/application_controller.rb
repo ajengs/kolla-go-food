@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  before_action :authorize
+  include Navigation
+  before_action :authorize, :set_navigations
   protect_from_forgery with: :exception
   
   protected

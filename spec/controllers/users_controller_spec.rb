@@ -63,13 +63,15 @@ describe UsersController do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new user in the database' do
+        role = create(:role)
         expect {
-          post :create, params: { user: attributes_for(:user) }
+          post :create, params: { user: attributes_for(:user, role_ids: [role]) }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to user#index' do
-        post :create, params: { user: attributes_for(:user) }
+        role = create(:role)
+        post :create, params: { user: attributes_for(:user, role_ids: [role]) }
         expect(response).to redirect_to(users_path)
       end
     end
@@ -84,6 +86,14 @@ describe UsersController do
       it 're-renders the :new template' do
         post :create, params: { user: attributes_for(:invalid_user) }
         expect(response).to render_template(:new)
+      end
+    end
+
+    context 'with roles assigned' do
+      it 'saves role_id(s) in the database for that user' do
+        role = create(:role)
+        post :create, params: { user: attributes_for(:user, role_ids: [role]) }
+        expect(assigns(:user).roles).to include(role)
       end
     end
   end
@@ -129,6 +139,23 @@ describe UsersController do
         expect(response).to render_template(:edit)
       end
     end
+
+    context 'with roles assigned' do
+      it 'saves role_id(s) in the database for that user' do
+        role = create(:role)
+        role2 = create(:role)
+        user = create(:user)
+        user.roles << role
+
+        post :update, params: { id: user, user: attributes_for(:user, role_ids: [role2]) }
+        expect(assigns(:user).roles).to include(role2)
+      end
+    end
+
+    it 'does not update gopay attribute when updating user' do
+      patch :update, params: { id: @user, user: attributes_for(:user, gopay: 100000) }
+      expect(assigns(:user).gopay).not_to eq(100000)
+    end
   end
 
   describe 'DELETE #destroy' do
@@ -145,6 +172,54 @@ describe UsersController do
     it 'redirects to user#index' do
       delete :destroy, params: { id: @user }
       expect(response).to redirect_to(users_path)
+    end
+  end
+
+  describe 'GET #topup' do
+    before :each do
+      @user = create(:user)
+    end
+
+    it 'assigns the requested user to @user' do
+      get :topup, params: { id: @user }
+      expect(assigns(:user)).to eq(@user)
+    end
+
+    it 'renders the :topup template' do
+      get :topup, params: { id: @user }
+      expect(response).to render_template(:topup)
+    end
+  end
+
+  describe 'PATCH #save_topup' do
+    before :each do
+      @user = create(:user, gopay: 100000)
+    end
+
+    context 'with valid gopay amount' do
+      it "adds topup amount to user's gopay in the database" do
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: 150000 }
+        @user.reload
+        expect(@user.gopay).to eq(250000)
+      end
+
+      it 'redirect to the user' do
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: 150000 }
+        expect(response).to redirect_to(users_path)
+      end
+    end
+
+    context 'with invalid gopay amount' do
+      it "does not change topup amount to user's gopay in the database" do
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: -50000 }
+        @user.reload
+        expect(@user.gopay).not_to eq(50000)
+      end
+
+      it 're-renders topup template' do
+        patch :save_topup, params: { id: @user, user: attributes_for(:user), topup_gopay: -50000 }
+        expect(response).to render_template(:topup)
+      end
     end
   end
 end

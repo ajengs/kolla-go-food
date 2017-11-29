@@ -5,23 +5,29 @@
 <h2>Search</h2>
 <%= render template: 'orders/search' %>
 
-<table>
+<table class='table-striped'>
+  <thead align="center">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Distance (km)</th>
+      <th>Delivery Cost</th>
+      <th>Total Price</th>
+      <th>Payment Type</th>
+    </tr>
+  </thead>
   <% @orders.each do |order| %>
-    <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+    <tr>
       <td><%= link_to "##{order.id}", order %></td>
-      <td class="list_description">
-        <dl>
-          <dt><%= order.name %></dt>
-          <dd><%= order.email %></dd>
-          <dd><%= order.address %></dd>
-        </dl>
-      </td>
-      <td>
-        <dl>
-          <dt><%= number_to_currency(order.total_price, unit: "Rp ", delimiter: ".", separator: ",") %></dt>
-          <dt>By <%= order.payment_type %></dt>
-        </dl>
-      </td>
+      <td><%= order.name %></td>
+      <td><%= order.email %></td>
+      <td><%= order.address %></td>
+      <td><%= order.calculate_distance %></td>
+      <td><%= number_to_currency(order.delivery_cost, unit: "Rp ", delimiter: ".", separator: ",") %></td>
+      <td><%= number_to_currency(order.total_price, unit: "Rp ", delimiter: ".", separator: ",")%></td>
+      <td><%= order.payment_type %></td>
     </tr>
   <% end %>
 </table>

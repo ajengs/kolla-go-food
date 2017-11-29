@@ -22,9 +22,10 @@ class Voucher < ApplicationRecord
   before_destroy :ensure_not_referenced_by_any_order
 
   def discount(price)
+    disc = 0
     if unit == 'Rupiah'
       disc = amount
-    else
+    elsif unit == 'Percent'
       disc = (price * amount / 100).round
     end
     disc > max_amount ? max_amount : disc

@@ -11,6 +11,11 @@
     border-bottom: 3px dotted #77d;
   }
 
+  h2 strong, h2 a {
+    margin: 0;
+    font: 60% sans-serif;
+  }
+
   /* An entry in our store catalogue */
   .entry {
     overflow: auto;

@@ -11,8 +11,7 @@
     </div>
   <% end %>
 
-  <fieldse>
-    <legend>Enter User Detail</legend>
+  <fieldset>
     <div class="field">
       <%= f.label :username %>
       <%= f.text_field :username, size: 40 %>
@@ -28,8 +27,15 @@
       <%= f.password_field :password_confirmation, size: 40 %>
     </div>
 
+    <div class="field">
+    <%= f.label :role %>
+    <%= collection_check_boxes(:user, :role_ids, Role.all, :id, :name) do |b| %>
+      <% b.label(:"data-value" => b.value, :"class" => "label_left") { b.check_box + b.text } %>
+    <% end %>
+  </div>
+
     <div class="actions">
       <%= f.submit %>
     </div>
-  </fieldse>
+  </fieldset>
 <% end %>

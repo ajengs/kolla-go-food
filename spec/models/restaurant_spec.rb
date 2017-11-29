@@ -42,4 +42,15 @@ describe Restaurant do
       expect(restaurant.reviews).to match_array(review)
     end
   end
+
+  it 'saves latitude & longitude if valid address' do
+    restaurant = create(:restaurant, address: 'pasaraya blok m')
+    expect(restaurant.latitude).not_to eq(nil)
+  end
+
+  it 'is invalid if address not found' do
+    restaurant = build(:restaurant, address: nil)
+    restaurant.valid?
+    expect(restaurant.errors[:address]).to include("not found")
+  end
 end
