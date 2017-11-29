@@ -33,4 +33,8 @@ describe Tag do
     tag = create(:tag, name: 'SWEET')
     expect(tag.name).to eq('sweet')
   end
+
+  describe 'relations' do
+    it { should have_and_belong_to_many(:foods) }
+  end
 end

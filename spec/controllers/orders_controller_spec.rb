@@ -25,15 +25,17 @@ describe OrdersController do
     
     context 'with searching parameters' do
       before :each do
+        @cart1 = create(:cart)
+        @cart2= create(:cart)
         @food1 = create(:food, price: 25000)
-        @order1 = create(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
-        @line_item1 = create(:line_item, food: @food1, quantity: 1, order: @order1)
-        @order1.total_price = @order1.set_total_price
+        @line_item1 = create(:line_item, food: @food1, quantity: 1, cart: @cart1)
+        @order1 = build(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
+        @order1.add_line_items(@cart1)
         @order1.save
 
-        @order2 = create(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
-        @line_item2 = create(:line_item, food: @food1, quantity: 3, order: @order2)
-        @order2.total_price = @order2.set_total_price
+        @line_item2 = create(:line_item, food: @food1, quantity: 3, cart: @cart2)
+        @order2 = build(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
+        @order2.add_line_items(@cart2)
         @order2.save
       end
 
@@ -91,14 +93,24 @@ describe OrdersController do
         @line_item = create(:line_item, cart: @cart)
       end
 
-      it 'assigns a new Order to @order' do
-        get :new
-        expect(assigns(:order)).to be_a_new(Order)
+      context 'with user logged in' do
+        it 'assigns a new Order to @order' do
+          get :new
+          expect(assigns(:order)).to be_a_new(Order)
+        end
+
+        it 'renders the :new template' do
+          get :new
+          expect(response).to render_template(:new)
+        end
       end
 
-      it 'renders the :new template' do
-        get :new
-        expect(response).to render_template(:new)
+      context 'with user not logged in' do
+        it 'redirects to login page' do
+          session[:user_id] = nil
+          get :new
+          expect(response).to redirect_to(login_url)
+        end
       end
     end
 
@@ -166,10 +178,10 @@ describe OrdersController do
         }.to change{ ActionMailer::Base.deliveries.count }.by(1)
       end
 
-      # it 'redirects to store index page' do
-      #   post :create, params: { order: attributes_for(:order) }
-      #   expect(response).to redirect_to(store_index_path)
-      # end
+      it 'saves user_id from session' do
+        post :create, params: { order: attributes_for(:order) }
+        expect(assigns(:order).user.id).to eq(session[:user_id])
+      end
 
       it 'redirects to order if logged in' do
         post :create, params: { order: attributes_for(:order) }

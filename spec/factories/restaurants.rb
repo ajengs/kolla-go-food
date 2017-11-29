@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence :name do |n|
       "restaurant #{n}"
     end
-    address { Faker::Address.street_address }
+    address 'kolla space sabang'
   end
 
   factory :invalid_restaurant, parent: :restaurant do

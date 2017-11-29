@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :topup, :save_topup]
 
   def index
     @users = User.all
@@ -52,12 +52,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def topup
+  end
+
+  def save_topup
+    respond_to do |format|
+      if @user.topup(params[:topup_gopay])
+        @users = User.all
+        format.html { redirect_to users_url, notice: "Go Pay was successfully updated" }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :topup }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
     end
 
     def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation)
+      params.require(:user).permit(:username, :password, :password_confirmation, role_ids: [])
     end
 end

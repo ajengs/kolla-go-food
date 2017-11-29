@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   include CurrentCart
-  skip_before_action :authorize, only: [:new, :create, :show]
+  # skip_before_action :authorize, only: [:new, :create, :show]
   before_action :set_cart, only: [:new, :create]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :ensure_cart_isnt_empty, only: :new
@@ -26,9 +26,10 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_items(@cart)
-    @order.total_price = @order.set_total_price
-
     @order.voucher = Voucher.find_by(code: order_params[:voucher_code].upcase)
+    @order.user = User.find(session[:user_id])
+    # @order.delivery_cost = @order.calculate_delivery_cost
+    # @order.total_price = @order.calculate_total_price
 
     respond_to do |format|
       if @order.save

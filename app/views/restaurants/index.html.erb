@@ -5,16 +5,18 @@
 <h2>Search</h2>
 <%= render template: 'restaurants/search' %>
 
-<table>
+<table class="table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th></th>
+    </tr>
+  </thead>
   <% @restaurants.each do |restaurant| %>
-    <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-
-      <td class="list_description">
-        <dl>
-          <dt><%= restaurant.name %></dt>
-          <dd><%= truncate(strip_tags(restaurant.address), length:80) %></dd>
-        </dl>
-      </td>
+    <tr>
+      <td><%= restaurant.name %></td>
+      <td><%= truncate(strip_tags(restaurant.address), length:80) %></td>
       <td class="list_actions">
         <%= link_to 'Show', restaurant %>
         <%= link_to 'Edit', edit_restaurant_path(restaurant) %>

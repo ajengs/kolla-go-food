@@ -10,7 +10,12 @@ describe SessionsController do
 
   describe 'POST #create' do
     before :each do
+      @role = create(:role, name: 'administrator')
+      @role2 = create(:role, name: 'customer')
       @user = create(:user, username: 'user1', password: 'longpassword', password_confirmation: 'longpassword')
+      @user.role_ids = @role.id
+      @user.save!
+      @user.reload
     end
 
     context 'with valid username and password' do
@@ -19,9 +24,17 @@ describe SessionsController do
         expect(session[:user_id]).to eq(@user.id)
       end
 
-      it 'redirects to admin index page' do
+      it 'redirects to admin index page if user is administrator' do
         post :create, params: { username: 'user1', password: 'longpassword' }
         expect(response).to redirect_to(admin_url)
+      end
+
+      it 'redirects to store index page if user is customer' do
+        @user.role_ids = @role2.id
+        @user.save!
+        @user.reload
+        post :create, params: { username: 'user1', password: 'longpassword' }
+        expect(response).to redirect_to(store_index_url)
       end
     end
 
