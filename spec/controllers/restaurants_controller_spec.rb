@@ -21,9 +21,9 @@ describe RestaurantsController do
 
     context 'with searching parameters' do
       before :each do
-        @restaurant1 = create(:restaurant, name: 'ABC', address: 'jl abc')
-        @restaurant2 = create(:restaurant, name: 'ABC DEF', address: 'def')
-        @restaurant3 = create(:restaurant, name: 'GHI', address: 'jl ghi')
+        @restaurant1 = create(:restaurant, name: 'ABC', address: 'Grand Indonesia')
+        @restaurant2 = create(:restaurant, name: 'ABC DEF', address: 'Kolla Space Sabang')
+        @restaurant3 = create(:restaurant, name: 'GHI', address: 'Grand Indonesia')
       end
 
       it 'populates an array of restaurants containing name param' do
@@ -32,7 +32,7 @@ describe RestaurantsController do
       end
 
       it 'populates an array of restaurants containing address param' do
-        get :index, params: { restaurant: { address: 'jl' } }
+        get :index, params: { restaurant: { address: 'Grand' } }
         expect(assigns(:restaurants)).to match_array([@restaurant1, @restaurant3])
       end
 
@@ -43,7 +43,7 @@ describe RestaurantsController do
       end
 
       it 'populates an array of restaurants with combination of search params' do
-        get :index, params: { restaurant: { name: 'ABC', address: 'def' } }
+        get :index, params: { restaurant: { name: 'ABC', address: 'Kolla' } }
         expect(assigns(:restaurants)).to match_array([@restaurant2])
       end
     end

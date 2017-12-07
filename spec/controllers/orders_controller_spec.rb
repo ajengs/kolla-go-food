@@ -29,12 +29,12 @@ describe OrdersController do
         @cart2= create(:cart)
         @food1 = create(:food, price: 25000)
         @line_item1 = create(:line_item, food: @food1, quantity: 1, cart: @cart1)
-        @order1 = build(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Privet Drive 4')
+        @order1 = build(:order, name: 'Ajeng', email: 'ajeng.bas@ggg.mmm', address: 'Grand Indonesia')
         @order1.add_line_items(@cart1)
         @order1.save
 
         @line_item2 = create(:line_item, food: @food1, quantity: 3, cart: @cart2)
-        @order2 = build(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Privet Drive 4A')
+        @order2 = build(:order, name: 'Panggah', email: 'panggah.bas@ggg.mmm', address: 'Kolla Space Sabang')
         @order2.add_line_items(@cart2)
         @order2.save
       end
@@ -45,7 +45,7 @@ describe OrdersController do
       end
 
       it 'populates an array of orders containing address param' do
-        get :index, params: { order: { address: '4A' } }
+        get :index, params: { order: { address: 'Sabang' } }
         expect(assigns(:orders)).to match_array([@order2])
       end
 
@@ -65,7 +65,7 @@ describe OrdersController do
       end
 
       it 'populates an array of foods with combination of search params' do
-        get :index, params: { order: { email: 'ajeng', address: '4A' } }
+        get :index, params: { order: { email: 'ajeng', address: 'Sabang' } }
         expect(assigns(:orders)).to match_array([])
       end
     end
@@ -171,12 +171,12 @@ describe OrdersController do
         expect(session[:cart_id]).to be(nil)
       end
 
-      it 'sends order confirmation email' do
-        post :create, params: { order: attributes_for(:order) }
-        expect{
-          OrderMailer.received(assigns(:order)).deliver
-        }.to change{ ActionMailer::Base.deliveries.count }.by(1)
-      end
+      # it 'sends order confirmation email' do
+      #   post :create, params: { order: attributes_for(:order) }
+      #   expect{
+      #     OrderMailer.received(assigns(:order)).deliver
+      #   }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+      # end
 
       it 'saves user_id from session' do
         post :create, params: { order: attributes_for(:order) }
